@@ -27,7 +27,7 @@ export default function Navigation() {
           alt="IRIDESCENCE"
           width={52}
           height={52}
-          style={{ filter: 'invert(1) brightness(6)', opacity: 0.82 }}
+          style={{ filter: 'invert(1)', opacity: 0.85 }}
           className="hover:opacity-100 transition-opacity duration-300"
         />
       </a>
