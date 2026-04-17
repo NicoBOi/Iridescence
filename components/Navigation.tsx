@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 
 export default function Navigation() {
   const navRef = useRef<HTMLElement>(null)
@@ -20,11 +21,15 @@ export default function Navigation() {
       }`}
       style={{ animationDelay: '1.2s' }}
     >
-      <a
-        href="#"
-        className="font-display text-[11px] tracking-[0.45em] uppercase text-white/80 hover:text-white transition-colors duration-400"
-      >
-        IRIDESCENCE
+      <a href="#" className="flex items-center" aria-label="IRIDESCENCE">
+        <Image
+          src="/logo.png"
+          alt="IRIDESCENCE"
+          width={40}
+          height={40}
+          style={{ filter: 'invert(1)', opacity: 0.8 }}
+          className="hover:opacity-100 transition-opacity duration-300"
+        />
       </a>
 
       <div className="hidden md:flex items-center gap-10">

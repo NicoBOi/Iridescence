@@ -31,7 +31,10 @@ export default function RootLayout({
       lang="en"
       className={`${cormorant.variable} ${inter.variable} antialiased bg-black text-white`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <div className="grain-overlay" aria-hidden="true" />
+      </body>
     </html>
   )
 }
