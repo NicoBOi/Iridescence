@@ -73,7 +73,8 @@ export default function VideoFullscreen({ youtubeId, onClose }: Props) {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+      className="fixed inset-0 z-50 bg-black flex items-center justify-center cursor-pointer"
+      onClick={onClose}
       style={{ opacity: 0 }}
     >
       {/* Close */}
@@ -85,8 +86,8 @@ export default function VideoFullscreen({ youtubeId, onClose }: Props) {
         ×
       </button>
 
-      {/* 16:9 container */}
-      <div className="w-full px-5 md:px-14 max-w-6xl">
+      {/* 16:9 container — click outside closes */}
+      <div className="w-full px-5 md:px-14 max-w-6xl" onClick={(e) => e.stopPropagation()}>
         <div className="w-full aspect-video relative overflow-hidden rounded-xl irid-border bg-black">
 
           {/* Oversized YT iframe — hides chrome */}

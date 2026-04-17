@@ -3,8 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Project } from './ProjectOverlay'
-import VideoFullscreen from './VideoFullscreen'
+import ProjectOverlay, { Project } from './ProjectOverlay'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -236,7 +235,7 @@ export default function Projects() {
       </section>
 
       {activeProject && (
-        <VideoFullscreen youtubeId={activeProject.youtubeId} onClose={() => setActiveProject(null)} />
+        <ProjectOverlay project={activeProject} onClose={() => setActiveProject(null)} />
       )}
     </>
   )
