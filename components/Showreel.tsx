@@ -25,7 +25,7 @@ export default function Showreel() {
       {
         scale: 1,
         opacity: 1,
-        duration: 1.3,
+        duration: 0.65,
         ease: 'power3.out',
         scrollTrigger: { trigger: frame, start: 'top 88%', toggleActions: 'play none none none' },
         onComplete: () => { frame.style.willChange = 'auto' },
@@ -39,7 +39,7 @@ export default function Showreel() {
       {
         opacity: 1,
         y: 0,
-        duration: 0.7,
+        duration: 0.35,
         ease: 'power2.out',
         scrollTrigger: { trigger: label, start: 'top 92%', toggleActions: 'play none none none' },
       }
@@ -81,7 +81,7 @@ export default function Showreel() {
         <video
           ref={videoRef}
           className="absolute inset-0 w-full h-full object-cover"
-          src="/showreel.mp4"
+          src="/videos/showreel.mp4"
           muted
           loop
           playsInline

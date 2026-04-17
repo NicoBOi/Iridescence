@@ -21,7 +21,7 @@ export default function Contact() {
         { yPercent: 105 },
         {
           yPercent: 0,
-          duration: 1.2,
+          duration: 0.6,
           ease: 'power4.out',
           scrollTrigger: { trigger: line, start: 'top 90%', toggleActions: 'play none none none' },
         }
@@ -30,14 +30,14 @@ export default function Contact() {
 
     if (ctaRef.current) {
       gsap.fromTo(ctaRef.current, { opacity: 0, y: 16 }, {
-        opacity: 1, y: 0, duration: 0.9, ease: 'power2.out',
+        opacity: 1, y: 0, duration: 0.45, ease: 'power2.out',
         scrollTrigger: { trigger: ctaRef.current, start: 'top 90%', toggleActions: 'play none none none' },
       })
     }
 
     if (emailRef.current) {
       gsap.fromTo(emailRef.current, { opacity: 0 }, {
-        opacity: 1, duration: 0.8, ease: 'power2.out',
+        opacity: 1, duration: 0.4, ease: 'power2.out',
         scrollTrigger: { trigger: emailRef.current, start: 'top 92%', toggleActions: 'play none none none' },
       })
     }

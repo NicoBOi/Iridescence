@@ -24,7 +24,7 @@ export default function Manifesto() {
         { yPercent: 105 },
         {
           yPercent: 0,
-          duration: 1.1,
+          duration: 0.55,
           ease: 'power4.out',
           scrollTrigger: { trigger: line, start: 'top 88%', toggleActions: 'play none none none' },
         }
@@ -38,7 +38,7 @@ export default function Manifesto() {
         {
           opacity: 1,
           y: 0,
-          duration: 1,
+          duration: 0.5,
           ease: 'power2.out',
           scrollTrigger: { trigger: bodyRef.current, start: 'top 88%', toggleActions: 'play none none none' },
         }
