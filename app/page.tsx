@@ -18,11 +18,11 @@ export default function Home() {
   return (
     <>
       {/* Fixed WebGL iridescent background — always visible, scroll-driven colour shift */}
-      <div className="fixed inset-0 z-[-1]" aria-hidden="true">
+      <div className="fixed inset-0 z-0" aria-hidden="true">
         <WebGLBackground />
       </div>
 
-      <main>
+      <main className="relative z-[1]">
         <Navigation />
         <Hero />
         <Showreel />
