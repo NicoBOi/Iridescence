@@ -16,7 +16,7 @@ const projects: Project[] = [
     genre: 'EXPERIMENTAL',
     color: '#101828',
     colorB: '#060810',
-    video: '/videos/01.mp4',
+    youtubeId: '_n-y644nd78',
     description:
       'A fragmented portrait of memory and its erosion. Images that return without context. Silence as evidence. Shot on expired 16mm in abandoned thermal baths.',
   },
@@ -28,7 +28,7 @@ const projects: Project[] = [
     genre: 'DOCUMENTARY',
     color: '#281a08',
     colorB: '#140a04',
-    video: '/videos/02.mp4',
+    youtubeId: 'E8WW4jJ59d4',
     description:
       'Two fishermen at the edge of a dying sea. The language of labor, of salt-cracked hands and dawn nets. A requiem before the silence arrives.',
   },
@@ -40,7 +40,7 @@ const projects: Project[] = [
     genre: 'FICTION',
     color: '#082018',
     colorB: '#04100c',
-    video: '/videos/03.mp4',
+    youtubeId: '8QIi8Ipc0wo',
     description:
       'Between departure and return, a woman stands at the threshold. The Loire at dusk holds both directions at once. Nothing is decided. Everything is felt.',
   },
@@ -52,7 +52,7 @@ const projects: Project[] = [
     genre: 'DRAMA',
     color: '#201810',
     colorB: '#100c08',
-    video: '/videos/04.mp4',
+    youtubeId: '0_H8xcqy4Vc',
     description:
       'A retirement home in winter. Time moves differently here — slower, denser. We follow four residents through the hours no one films. Tenderness without sentimentality.',
   },
@@ -64,7 +64,7 @@ const projects: Project[] = [
     genre: 'EXPERIMENTAL',
     color: '#180e28',
     colorB: '#0c0818',
-    video: '/videos/05.mp4',
+    youtubeId: 'w4ppl3xqMmU',
     description:
       'Layers of image over image, city over city. The ghosts of what a place was before, bleeding through its present skin. An essay in superimposition.',
   },
@@ -76,7 +76,7 @@ const projects: Project[] = [
     genre: 'DOCUMENTARY',
     color: '#281408',
     colorB: '#180c04',
-    video: '/videos/06.mp4',
+    youtubeId: 'Qer6Ho3SSm4',
     description:
       'Three families, three continents, one long solar day. Light as the only shared grammar. A meditation on simultaneity and the myth of distance.',
   },
@@ -92,7 +92,6 @@ interface CardProps {
 
 function ProjectCard({ project, onClick, colSpan, aspect, index }: CardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
-  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     const el = cardRef.current
@@ -118,23 +117,13 @@ function ProjectCard({ project, onClick, colSpan, aspect, index }: CardProps) {
     )
   }, [index])
 
-  const handleMouseEnter = () => {
-    videoRef.current?.play().catch(() => {})
-  }
-  const handleMouseLeave = () => {
-    const v = videoRef.current
-    if (!v) return
-    v.pause()
-    v.currentTime = 0
-  }
+  const thumb = `https://img.youtube.com/vi/${project.youtubeId}/maxresdefault.jpg`
 
   return (
     <div
       ref={cardRef}
       className={`${colSpan} project-card group cursor-pointer relative overflow-hidden`}
       onClick={() => onClick(project)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       <div
         className={`w-full ${aspect} relative grain overflow-hidden`}
@@ -142,18 +131,13 @@ function ProjectCard({ project, onClick, colSpan, aspect, index }: CardProps) {
           background: `linear-gradient(135deg, ${project.color} 0%, ${project.colorB} 100%)`,
         }}
       >
-        {/* Video — plays on hover */}
-        {project.video && (
-          <video
-            ref={videoRef}
-            src={project.video}
-            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-60 transition-opacity duration-700 z-[0]"
-            muted
-            loop
-            playsInline
-            preload="metadata"
-          />
-        )}
+        {/* YouTube thumbnail — fades in on hover */}
+        <img
+          src={thumb}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-70 transition-opacity duration-700 z-[0]"
+          loading="lazy"
+        />
 
         {/* Cinematic lens glow */}
         <div
@@ -164,9 +148,9 @@ function ProjectCard({ project, onClick, colSpan, aspect, index }: CardProps) {
         />
 
         {/* Hover darken */}
-        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-25 transition-opacity duration-700 z-[3]" />
+        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity duration-700 z-[3]" />
 
-        {/* Genre label — appears on hover */}
+        {/* Genre label */}
         <div className="absolute top-5 left-5 z-[4]">
           <span className="font-sans text-[8px] text-white/20 tracking-[0.45em] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500">
             {project.genre}
@@ -174,12 +158,11 @@ function ProjectCard({ project, onClick, colSpan, aspect, index }: CardProps) {
         </div>
 
         {/* Bottom info */}
-        <div className="absolute bottom-0 left-0 right-0 px-5 pb-5 pt-10 z-[4]"
+        <div
+          className="absolute bottom-0 left-0 right-0 px-5 pb-5 pt-10 z-[4]"
           style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%)' }}
         >
-          {/* Slide-in line */}
           <div className="project-line h-px bg-white/40 mb-3 w-full" />
-
           <div className="flex items-end justify-between">
             <span className="font-sans text-[9px] text-white/25 tracking-widest">
               {project.id}
