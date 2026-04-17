@@ -135,7 +135,7 @@ function ProjectCard({ project, onClick, colSpan, aspect, index }: CardProps) {
         <img
           src={thumb}
           alt=""
-          className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-70 transition-opacity duration-700 z-[0]"
+          className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-85 transition-opacity duration-700 z-[0]"
           loading="lazy"
         />
 

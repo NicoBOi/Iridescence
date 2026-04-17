@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+import { loadYouTubeAPI } from '@/utils/youtube'
 
 export interface Project {
   id: string
@@ -23,6 +24,9 @@ interface Props {
 export default function ProjectOverlay({ project, onClose }: Props) {
   const overlayRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+  const playerDivRef = useRef<HTMLDivElement>(null)
+  const playerRef = useRef<any>(null)
+  const [muted, setMuted] = useState(true)
 
   useEffect(() => {
     const overlay = overlayRef.current
@@ -32,18 +36,37 @@ export default function ProjectOverlay({ project, onClose }: Props) {
     gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'power2.out' })
     gsap.fromTo(content, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out', delay: 0.05 })
 
+    loadYouTubeAPI().then(() => {
+      if (!playerDivRef.current) return
+      playerRef.current = new (window as any).YT.Player(playerDivRef.current, {
+        videoId: project.youtubeId,
+        playerVars: {
+          autoplay: 1, mute: 1,
+          controls: 0, modestbranding: 1, rel: 0,
+          iv_load_policy: 3, disablekb: 1, playsinline: 1, showinfo: 0,
+        },
+        events: {
+          onReady: (e: any) => e.target.playVideo(),
+        },
+      })
+    })
+
     document.body.style.overflow = 'hidden'
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
     window.addEventListener('keydown', onKey)
     return () => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', onKey)
+      playerRef.current?.destroy()
     }
-  }, [onClose])
+  }, [onClose, project.youtubeId])
 
-  const embedSrc =
-    `https://www.youtube.com/embed/${project.youtubeId}` +
-    `?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&color=white`
+  const toggleSound = () => {
+    const p = playerRef.current
+    if (!p) return
+    if (p.isMuted()) { p.unMute(); setMuted(false) }
+    else { p.mute(); setMuted(true) }
+  }
 
   return (
     <div
@@ -54,18 +77,34 @@ export default function ProjectOverlay({ project, onClose }: Props) {
     >
       <div ref={contentRef} className="flex flex-col md:flex-row w-full h-full" style={{ opacity: 0 }}>
 
-        {/* Left — YouTube embed */}
-        <div
-          className="w-full md:w-1/2 h-48 md:h-full relative flex-shrink-0 overflow-hidden bg-black"
-          style={{ background: `linear-gradient(140deg, ${project.color} 0%, ${project.colorB} 100%)` }}
-        >
-          <iframe
-            src={embedSrc}
-            allow="autoplay; encrypted-media; fullscreen"
-            allowFullScreen
-            className="absolute inset-0 w-full h-full"
-            style={{ border: 'none' }}
-          />
+        {/* Left — YouTube player, no chrome */}
+        <div className="w-full md:w-1/2 h-48 md:h-full relative flex-shrink-0 overflow-hidden bg-black">
+          {/* Oversized player to hide YouTube UI */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%', left: '50%',
+              width: '120%', height: '120%',
+              transform: 'translate(-50%, -50%)',
+              pointerEvents: 'none',
+            }}
+          >
+            <div ref={playerDivRef} style={{ width: '100%', height: '100%' }} />
+          </div>
+
+          {/* Sound toggle */}
+          <div
+            className="absolute bottom-0 left-0 right-0 z-10 flex justify-end px-5 py-4"
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)' }}
+          >
+            <button
+              onClick={toggleSound}
+              className="flex items-center gap-2 font-sans text-[8px] tracking-[0.35em] text-white/50 hover:text-white/90 uppercase transition-colors duration-300"
+              aria-label={muted ? 'Activer le son' : 'Couper le son'}
+            >
+              {muted ? <><SoundOffIcon /><span>Son</span></> : <><SoundOnIcon /><span>Muet</span></>}
+            </button>
+          </div>
         </div>
 
         {/* Right — details */}
@@ -105,16 +144,34 @@ export default function ProjectOverlay({ project, onClose }: Props) {
             {project.description}
           </p>
 
-          <div className="flex gap-3 flex-wrap">
-            <button
-              onClick={onClose}
-              className="font-sans text-[9px] tracking-widest uppercase px-7 py-3.5 border border-white/10 text-white/35 hover:border-white/25 hover:text-white/60 transition-all duration-300"
-            >
-              Back
-            </button>
-          </div>
+          <button
+            onClick={onClose}
+            className="self-start font-sans text-[9px] tracking-widest uppercase px-7 py-3.5 border border-white/10 text-white/35 hover:border-white/25 hover:text-white/60 transition-all duration-300"
+          >
+            Back
+          </button>
         </div>
       </div>
     </div>
+  )
+}
+
+function SoundOffIcon() {
+  return (
+    <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+      <path d="M1 4H3L7 1V11L3 8H1V4Z" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" fill="none"/>
+      <line x1="10" y1="4" x2="13" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+      <line x1="13" y1="4" x2="10" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+function SoundOnIcon() {
+  return (
+    <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+      <path d="M1 4H3L7 1V11L3 8H1V4Z" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" fill="none"/>
+      <path d="M9.5 3.5C10.5 4.5 10.5 7.5 9.5 8.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" fill="none"/>
+      <path d="M11.5 2C13.2 3.7 13.2 8.3 11.5 10" stroke="currentColor" strokeWidth="1" strokeLinecap="round" fill="none"/>
+    </svg>
   )
 }
