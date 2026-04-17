@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="py-8 px-6 md:px-14 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/[0.06] bg-black">
       {/* Left */}
       <p className="font-sans text-[10px] text-white/20 tracking-widest uppercase">
-        © 2024 IRIDECENCE
+        © 2024 IRIDESCENCE
       </p>
 
       {/* Center */}

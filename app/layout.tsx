@@ -17,7 +17,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'IRIDECENCE',
+  title: 'IRIDESCENCE',
   description: 'Independent Filmmakers Collective',
 }
 

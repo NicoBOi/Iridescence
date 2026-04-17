@@ -16,7 +16,21 @@
       "Bash(brew --version)",
       "Bash(brew install *)",
       "Bash(npx next *)",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "Bash(grep -iE \"\\\\.\\(mp4|mov|webm|m4v|avi|mkv\\)$\")",
+      "Bash(awk '{print $5, $9}')",
+      "Bash(awk '{print $6, $7, $8, $9}')",
+      "Bash(brew list *)",
+      "Bash(cp '~/Downloads/15631616_3840_2160_60fps.mp4' /Users/nicolassempere/Desktop/IRIDECENCE/SITE/public/videos/showreel.mp4)",
+      "Bash(cp ~/Downloads/15682305_3840_2160_30fps.mp4 /Users/nicolassempere/Desktop/IRIDECENCE/SITE/public/videos/01.mp4)",
+      "Bash(cp ~/Downloads/15647215_3840_2160_30fps.mp4 /Users/nicolassempere/Desktop/IRIDECENCE/SITE/public/videos/02.mp4)",
+      "Bash(cp ~/Downloads/15024834_3840_2160_30fps.mp4 /Users/nicolassempere/Desktop/IRIDECENCE/SITE/public/videos/03.mp4)",
+      "Bash(cp ~/Downloads/15420625_1920_1080_25fps.mp4 /Users/nicolassempere/Desktop/IRIDECENCE/SITE/public/videos/04.mp4)",
+      "Bash(git lfs *)",
+      "Bash(npm run *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }

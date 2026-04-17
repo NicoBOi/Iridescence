@@ -24,7 +24,7 @@ export default function Navigation() {
         href="#"
         className="font-display text-[11px] tracking-[0.45em] uppercase text-white/80 hover:text-white transition-colors duration-400"
       >
-        IRIDECENCE
+        IRIDESCENCE
       </a>
 
       <div className="hidden md:flex items-center gap-10">

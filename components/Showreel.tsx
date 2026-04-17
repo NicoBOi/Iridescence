@@ -15,6 +15,8 @@ export default function Showreel() {
   const playerDivRef = useRef<HTMLDivElement>(null)
   const playerRef = useRef<any>(null)
   const [muted, setMuted] = useState(true)
+  const [playing, setPlaying] = useState(false)
+  const [showIcon, setShowIcon] = useState(false)
 
   useEffect(() => {
     const frame = frameRef.current
@@ -42,7 +44,8 @@ export default function Showreel() {
           iv_load_policy: 3, disablekb: 1, playsinline: 1, showinfo: 0,
         },
         events: {
-          onReady: (e: any) => e.target.playVideo(),
+          onReady: (e: any) => { e.target.playVideo(); setPlaying(true) },
+          onStateChange: (e: any) => { setPlaying(e.data === 1) },
         },
       })
     })
@@ -55,6 +58,14 @@ export default function Showreel() {
     if (!p) return
     if (p.isMuted()) { p.unMute(); setMuted(false) }
     else { p.mute(); setMuted(true) }
+  }
+
+  const togglePlay = () => {
+    const p = playerRef.current
+    if (!p) return
+    if (playing) { p.pauseVideo() } else { p.playVideo() }
+    setShowIcon(true)
+    setTimeout(() => setShowIcon(false), 600)
   }
 
   return (
@@ -85,10 +96,29 @@ export default function Showreel() {
           <div ref={playerDivRef} style={{ width: '100%', height: '100%' }} />
         </div>
 
+        {/* Click to play/pause */}
+        <div
+          className="absolute inset-0 z-[4] cursor-pointer"
+          onClick={togglePlay}
+        />
+
+        {/* Play/pause flash icon */}
+        {showIcon && (
+          <div className="absolute inset-0 z-[6] flex items-center justify-center pointer-events-none">
+            <div className="w-16 h-16 rounded-full bg-black/50 flex items-center justify-center">
+              {playing
+                ? <svg width="20" height="20" viewBox="0 0 18 18" fill="none"><rect x="4" y="3" width="3.5" height="12" rx="1" fill="rgba(255,255,255,0.8)"/><rect x="10.5" y="3" width="3.5" height="12" rx="1" fill="rgba(255,255,255,0.8)"/></svg>
+                : <svg width="20" height="20" viewBox="0 0 18 18" fill="none"><path d="M5 3.5L14.5 9L5 14.5V3.5Z" fill="rgba(255,255,255,0.8)"/></svg>
+              }
+            </div>
+          </div>
+        )}
+
         {/* Sound toggle — visible on hover */}
         <div
           className="absolute bottom-0 left-0 right-0 z-10 flex justify-end px-5 py-4 opacity-0 hover:opacity-100 transition-opacity duration-300"
-          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%)', pointerEvents: 'none' }}
+          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%)' }}
+          onClick={(e) => e.stopPropagation()}
         >
           <button
             onClick={toggleSound}

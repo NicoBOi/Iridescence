@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 
 const WebGLBackground = dynamic(() => import('./WebGLBackground'), { ssr: false })
 
-const TITLE = 'IRIDECENCE'
+const TITLE = 'IRIDESCENCE'
 
 export default function Hero() {
   return (

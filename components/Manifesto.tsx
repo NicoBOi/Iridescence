@@ -85,7 +85,7 @@ export default function Manifesto() {
             className="max-w-sm border-l border-white/10 pl-7"
           >
             <p className="font-sans text-white/40 text-sm leading-relaxed mb-5">
-              IRIDECENCE is a collective of independent filmmakers working across documentary,
+              IRIDESCENCE is a collective of independent filmmakers working across documentary,
               fiction, and experimental form. Based between Paris and Los Angeles.
             </p>
             <p className="font-sans text-white/40 text-sm leading-relaxed">
