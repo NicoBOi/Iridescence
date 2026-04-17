@@ -54,7 +54,7 @@ export default function Showreel() {
   return (
     <>
       {/* pb-px ensures irid-border bottom shadow is not clipped */}
-      <section className="bg-black pt-10 pb-px px-6 md:px-14">
+      <section className="bg-black/80 pt-10 pb-px px-6 md:px-14">
         <p
           ref={labelRef}
           className="font-sans text-[9px] tracking-[0.55em] text-white/25 uppercase mb-6"

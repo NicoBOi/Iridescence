@@ -210,12 +210,7 @@
   backface-visibility: hidden;
 }
 
-/* ─── Performance: contain paint on heavy sections ─── */
-#work,
-#about,
-#contact {
-  contain: paint;
-}
+/* contain: paint removed — semi-transparent sections need to show the fixed WebGL */
 
 /* ─── Smooth transitions on interactive elements ─── */
 .project-card {

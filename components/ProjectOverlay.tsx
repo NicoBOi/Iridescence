@@ -129,8 +129,8 @@ export default function ProjectOverlay({ project, onClose }: Props) {
             <div className="flex flex-col gap-3 mb-7">
               {[
                 { label: 'Genre',    value: project.genre    },
-                { label: 'Year',     value: project.year     },
-                { label: 'Duration', value: project.duration },
+                { label: 'Année',  value: project.year     },
+                { label: 'Durée',  value: project.duration },
               ].map(({ label, value }) => (
                 <div key={label} className="flex items-baseline gap-4">
                   <p className="font-sans text-[8px] tracking-[0.4em] text-white/25 uppercase w-16 shrink-0">{label}</p>
@@ -149,7 +149,7 @@ export default function ProjectOverlay({ project, onClose }: Props) {
               onClick={onClose}
               className="self-start font-sans text-[8px] tracking-widest uppercase px-6 py-3 border border-white/10 text-white/30 hover:border-white/25 hover:text-white/55 transition-all duration-300"
             >
-              Back
+              Retour
             </button>
           </div>
         </div>

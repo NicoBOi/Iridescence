@@ -212,12 +212,12 @@ export default function Projects() {
 
   return (
     <>
-      <section id="work" className="py-32 px-6 md:px-14 bg-black">
+      <section id="work" className="py-32 px-6 md:px-14 bg-black/80">
         <p
           ref={headerRef}
           className="font-sans text-[9px] tracking-[0.55em] text-white/25 uppercase mb-20"
         >
-          Selected Work
+          Sélection
         </p>
 
         <div className="grid grid-cols-12 gap-2 md:gap-3">

@@ -30,7 +30,10 @@
       "Bash(npm run *)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(grep -iE '\\\\.\\(png|jpg|jpeg|svg|gif\\)$')",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(grep -iE '\\\\.\\(png|jpg|jpeg\\)$')"
     ]
   }
 }

@@ -1,19 +1,10 @@
 'use client'
 
-import dynamic from 'next/dynamic'
-
-const WebGLBackground = dynamic(() => import('./WebGLBackground'), { ssr: false })
-
 const TITLE = 'IRIDESCENCE'
 
 export default function Hero() {
   return (
-    <section className="h-screen w-full relative overflow-hidden bg-black flex flex-col items-center justify-center">
-      {/* WebGL iridescent shader background */}
-      <div className="absolute inset-0 z-0">
-        <WebGLBackground />
-      </div>
-
+    <section className="h-screen w-full relative flex flex-col items-center justify-center">
       {/* Radial center glow — very subtle */}
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
@@ -29,7 +20,7 @@ export default function Hero() {
           className="font-sans text-[9px] tracking-[0.55em] text-white/30 uppercase mb-10 fade-in"
           style={{ animationDelay: '0s', animationDuration: '0.8s' }}
         >
-          Independent Filmmakers Collective
+          Collectif de cinéastes indépendants
         </p>
 
         {/* Title */}
@@ -60,14 +51,14 @@ export default function Hero() {
           className="font-sans text-[8px] tracking-[0.55em] text-white/22 mt-5 uppercase fade-in"
           style={{ animationDelay: '0.8s', animationDuration: '0.8s' }}
         >
-          Scroll
+          Défiler
         </p>
       </div>
 
       {/* Bottom fade to black */}
       <div
         className="absolute bottom-0 left-0 right-0 h-40 z-[1] pointer-events-none"
-        style={{ background: 'linear-gradient(to top, #000 0%, transparent 100%)' }}
+        style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%)' }}
       />
     </section>
   )

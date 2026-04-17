@@ -33,10 +33,10 @@ export default function Navigation() {
       </a>
 
       <div className="hidden md:flex items-center gap-10">
-        {(['Work', 'About', 'Contact'] as const).map((label) => (
+        {([['Films', 'work'], ['À propos', 'about'], ['Contact', 'contact']] as const).map(([label, id]) => (
           <a
-            key={label}
-            href={`#${label.toLowerCase()}`}
+            key={id}
+            href={`#${id}`}
             className="nav-link font-sans text-[10px] tracking-[0.3em] text-white/45 hover:text-white/80 transition-colors duration-300 uppercase"
           >
             {label}
@@ -44,12 +44,12 @@ export default function Navigation() {
         ))}
       </div>
 
-      {/* Mobile — three dots menu */}
+      {/* Mobile */}
       <div className="flex md:hidden items-center gap-5">
-        {(['Work', 'About', 'Contact'] as const).map((label) => (
+        {([['Films', 'work'], ['À propos', 'about'], ['Contact', 'contact']] as const).map(([label, id]) => (
           <a
-            key={label}
-            href={`#${label.toLowerCase()}`}
+            key={id}
+            href={`#${id}`}
             className="font-sans text-[8px] tracking-[0.2em] text-white/40 hover:text-white/70 transition-colors duration-300 uppercase"
           >
             {label}

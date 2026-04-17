@@ -7,9 +7,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const lines = [
-  'We make films',
-  'that refuse to explain',
-  'themselves.',
+  'Nous faisons des films',
+  'qui refusent de',
+  "s'expliquer.",
 ]
 
 export default function Manifesto() {
@@ -49,13 +49,13 @@ export default function Manifesto() {
   return (
     <section
       id="about"
-      className="min-h-screen flex flex-col justify-center px-6 md:px-20 py-32 bg-black"
+      className="min-h-screen flex flex-col justify-center px-6 md:px-20 py-32 bg-black/80"
     >
       <div className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-8 items-start max-w-7xl mx-auto w-full">
 
         {/* Left label */}
         <div className="md:col-span-2 md:pt-2">
-          <p className="font-sans text-[9px] tracking-[0.55em] text-white/25 uppercase">About</p>
+          <p className="font-sans text-[9px] tracking-[0.55em] text-white/25 uppercase">À propos</p>
         </div>
 
         {/* Right content */}
@@ -85,11 +85,11 @@ export default function Manifesto() {
             className="max-w-sm border-l border-white/10 pl-7"
           >
             <p className="font-sans text-white/40 text-sm leading-relaxed mb-5">
-              IRIDESCENCE is a collective of independent filmmakers working across documentary,
-              fiction, and experimental form. Based between Paris and Los Angeles.
+              IRIDESCENCE est un collectif de cinéastes indépendants travaillant entre le documentaire,
+              la fiction et la forme expérimentale. Basé à Bordeaux, France.
             </p>
             <p className="font-sans text-white/40 text-sm leading-relaxed">
-              We believe in images that last.
+              Nous croyons aux images qui durent.
             </p>
           </div>
         </div>

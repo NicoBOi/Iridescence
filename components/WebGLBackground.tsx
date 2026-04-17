@@ -15,6 +15,7 @@ const fragmentShader = `
 uniform float uTime;
 uniform vec2 uResolution;
 uniform vec2 uMouse;
+uniform float uScrollY;
 varying vec2 vUv;
 
 vec3 spectral(float t) {
@@ -53,7 +54,9 @@ void main() {
   vec2 uv = vUv;
   float t = uTime * 0.06;
 
-  // Mouse subtly bends the deeper domain warping — no translation, no glow
+  // Scroll shifts the color palette over the full page
+  float scrollShift = uScrollY * 2.8;
+
   vec2 mouseNudge = (uMouse - 0.5) * 0.12;
 
   vec2 q = vec2(fbm(uv + vec2(0.0, 0.0)),
@@ -67,7 +70,7 @@ void main() {
   float glowMask = smoothstep(0.42, 0.78, f);
   float flareMask = smoothstep(0.62, 0.82, f) * smoothstep(0.0, 0.3, veinMask);
 
-  vec3 iridColor = spectral(f * 2.5 + t * 0.12);
+  vec3 iridColor = spectral(f * 2.5 + t * 0.12 + scrollShift);
   vec3 base = vec3(0.014, 0.014, 0.018);
 
   float intensity = veinMask * 0.32 + glowMask * 0.10 + flareMask * 0.45;
@@ -85,16 +88,16 @@ export default function WebGLBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animRef   = useRef<number>(0)
   const pausedRef = useRef(false)
-  const targetMouseRef = useRef(new THREE.Vector2(0.5, 0.5))
+  const targetMouseRef  = useRef(new THREE.Vector2(0.5, 0.5))
+  const targetScrollRef = useRef(0)
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
     const isMobile = window.innerWidth < 768
-    const parent   = canvas.parentElement!
-    const w = parent.offsetWidth  || window.innerWidth
-    const h = parent.offsetHeight || window.innerHeight
+    const w = window.innerWidth
+    const h = window.innerHeight
 
     const dpr = isMobile
       ? Math.min(window.devicePixelRatio, 1.0)
@@ -111,6 +114,7 @@ export default function WebGLBackground() {
       uTime:       { value: 0 },
       uResolution: { value: new THREE.Vector2(w, h) },
       uMouse:      { value: new THREE.Vector2(0.5, 0.5) },
+      uScrollY:    { value: 0 },
     }
 
     scene.add(new THREE.Mesh(
@@ -118,15 +122,19 @@ export default function WebGLBackground() {
       new THREE.ShaderMaterial({ vertexShader, fragmentShader, uniforms })
     ))
 
-    // Track mouse — smooth lerp in render loop
     const onMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect()
       targetMouseRef.current.set(
-        (e.clientX - rect.left) / rect.width,
-        1.0 - (e.clientY - rect.top) / rect.height
+        e.clientX / window.innerWidth,
+        1.0 - e.clientY / window.innerHeight
       )
     }
     window.addEventListener('mousemove', onMouseMove, { passive: true })
+
+    const onScroll = () => {
+      const max = document.body.scrollHeight - window.innerHeight
+      targetScrollRef.current = max > 0 ? window.scrollY / max : 0
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
 
     const frameInterval = isMobile ? 1000 / 30 : 0
     let lastFrame = 0
@@ -138,8 +146,8 @@ export default function WebGLBackground() {
       if (frameInterval && now - lastFrame < frameInterval) return
       lastFrame = now
       uniforms.uTime.value = (now - startTime) / 1000
-      // Smooth mouse lerp — lazy follow
       uniforms.uMouse.value.lerp(targetMouseRef.current, 0.025)
+      uniforms.uScrollY.value += (targetScrollRef.current - uniforms.uScrollY.value) * 0.04
       renderer.render(scene, camera)
     }
     animRef.current = requestAnimationFrame(animate)
@@ -148,16 +156,17 @@ export default function WebGLBackground() {
     document.addEventListener('visibilitychange', onVisibility)
 
     const ro = new ResizeObserver(() => {
-      const nw = parent.offsetWidth  || window.innerWidth
-      const nh = parent.offsetHeight || window.innerHeight
+      const nw = window.innerWidth
+      const nh = window.innerHeight
       renderer.setSize(nw, nh, false)
       uniforms.uResolution.value.set(nw, nh)
     })
-    ro.observe(parent)
+    ro.observe(document.body)
 
     return () => {
       cancelAnimationFrame(animRef.current)
       window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('scroll', onScroll)
       document.removeEventListener('visibilitychange', onVisibility)
       ro.disconnect()
       renderer.dispose()
@@ -167,7 +176,7 @@ export default function WebGLBackground() {
   return (
     <canvas
       ref={canvasRef}
-      style={{ display: 'block', width: '100%', height: '100%', willChange: 'auto' }}
+      style={{ display: 'block', width: '100%', height: '100%' }}
     />
   )
 }

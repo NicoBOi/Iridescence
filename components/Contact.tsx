@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const ctaLines = ["LET'S MAKE", 'SOMETHING', 'REAL.']
+const ctaLines = ['FAISONS', 'QUELQUE CHOSE', 'DE VRAI.']
 
 export default function Contact() {
   const lineRefs = useRef<(HTMLSpanElement | null)[]>([])
@@ -46,7 +46,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="min-h-[75vh] flex flex-col justify-center items-center text-center px-6 py-32 bg-black"
+      className="min-h-[75vh] flex flex-col justify-center items-center text-center px-6 py-32 bg-black/80"
     >
       {/* Large CTA text */}
       <div className="mb-14">
@@ -70,16 +70,16 @@ export default function Contact() {
       {/* Buttons */}
       <div ref={ctaRef} className="flex flex-col sm:flex-row items-center gap-4">
         <button className="font-sans text-[9px] tracking-[0.3em] uppercase px-9 py-4 border border-white/25 hover:border-white hover:bg-white hover:text-black transition-all duration-500">
-          Work With Us
+          Collaborer
         </button>
         <button className="font-sans text-[9px] tracking-[0.3em] uppercase px-9 py-4 border border-white/25 hover:border-white hover:bg-white hover:text-black transition-all duration-500">
-          Send a Message
+          Nous écrire
         </button>
       </div>
 
       {/* Email */}
       <p ref={emailRef} className="font-sans text-white/25 text-[10px] tracking-[0.35em] mt-12">
-        hello@iridecence.film
+        hello@iridescence.film
       </p>
     </section>
   )
