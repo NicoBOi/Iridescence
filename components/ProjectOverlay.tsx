@@ -96,7 +96,7 @@ export default function ProjectOverlay({ project, onClose }: Props) {
               style={{
                 position: 'absolute',
                 top: '50%', left: '50%',
-                width: '125%', height: '125%',
+                width: '200%', height: '200%',
                 transform: 'translate(-50%, -50%)',
                 pointerEvents: 'none',
               }}

@@ -102,7 +102,7 @@ function ShowreelFullscreen({ onClose }: { onClose: () => void }) {
   const overlayRef = useRef<HTMLDivElement>(null)
   const playerDivRef = useRef<HTMLDivElement>(null)
   const playerRef = useRef<any>(null)
-  const [muted, setMuted] = useState(false)
+  const [muted, setMuted] = useState(true)
   const [playing, setPlaying] = useState(false)
   const [showIcon, setShowIcon] = useState(false)
 
@@ -115,7 +115,7 @@ function ShowreelFullscreen({ onClose }: { onClose: () => void }) {
       playerRef.current = new (window as any).YT.Player(playerDivRef.current, {
         videoId: SHOWREEL_ID,
         playerVars: {
-          autoplay: 1, mute: 0,
+          autoplay: 1, mute: 1,
           controls: 0, modestbranding: 1, rel: 0,
           iv_load_policy: 3, disablekb: 1, playsinline: 1, showinfo: 0,
         },
@@ -173,7 +173,7 @@ function ShowreelFullscreen({ onClose }: { onClose: () => void }) {
             style={{
               position: 'absolute',
               top: '50%', left: '50%',
-              width: '125%', height: '125%',
+              width: '200%', height: '200%',
               transform: 'translate(-50%, -50%)',
               pointerEvents: 'none',
             }}
