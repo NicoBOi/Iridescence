@@ -122,11 +122,11 @@ function ProjectCard({ project, onClick, colSpan, aspect, index }: CardProps) {
   return (
     <div
       ref={cardRef}
-      className={`${colSpan} project-card group cursor-pointer relative overflow-hidden`}
+      className={`${colSpan} project-card group cursor-pointer relative rounded-xl irid-border`}
       onClick={() => onClick(project)}
     >
       <div
-        className={`w-full ${aspect} relative grain overflow-hidden rounded-xl irid-border`}
+        className={`w-full ${aspect} relative grain overflow-hidden rounded-xl`}
         style={{
           background: `linear-gradient(135deg, ${project.color} 0%, ${project.colorB} 100%)`,
         }}
