@@ -53,14 +53,13 @@ void main() {
   vec2 uv = vUv;
   float t = uTime * 0.06;
 
-  // Mouse influence — pulls the domain warping toward cursor
-  vec2 mouse = uMouse - 0.5;
-  vec2 mouseWarp = mouse * 0.55;
+  // Mouse subtly bends the deeper domain warping — no translation, no glow
+  vec2 mouseNudge = (uMouse - 0.5) * 0.12;
 
-  vec2 q = vec2(fbm(uv + mouseWarp * 0.4 + vec2(0.0, 0.0)),
-                fbm(uv + mouseWarp * 0.4 + vec2(5.2, 1.3)));
-  vec2 r = vec2(fbm(uv + 4.0 * q + vec2(1.7 + t * 0.15, 9.2) + mouseWarp * 0.25),
-                fbm(uv + 4.0 * q + vec2(8.3 + t * 0.1,  2.8) + mouseWarp * 0.25));
+  vec2 q = vec2(fbm(uv + vec2(0.0, 0.0)),
+                fbm(uv + vec2(5.2, 1.3)));
+  vec2 r = vec2(fbm(uv + 4.0 * q + vec2(1.7 + t * 0.15, 9.2) + mouseNudge),
+                fbm(uv + 4.0 * q + vec2(8.3 + t * 0.1,  2.8) + mouseNudge));
   float f = fbm(uv + 4.0 * r + vec2(t * 0.08));
 
   float edge     = abs(f - 0.5);
@@ -68,14 +67,10 @@ void main() {
   float glowMask = smoothstep(0.42, 0.78, f);
   float flareMask = smoothstep(0.62, 0.82, f) * smoothstep(0.0, 0.3, veinMask);
 
-  // Extra brightness near cursor
-  float mouseDist = length(uv - uMouse);
-  float mouseGlow = smoothstep(0.4, 0.0, mouseDist) * 0.18;
-
   vec3 iridColor = spectral(f * 2.5 + t * 0.12);
   vec3 base = vec3(0.014, 0.014, 0.018);
 
-  float intensity = veinMask * 0.32 + glowMask * 0.10 + flareMask * 0.45 + mouseGlow;
+  float intensity = veinMask * 0.32 + glowMask * 0.10 + flareMask * 0.45;
   vec3 color = base + iridColor * intensity;
 
   vec2 c = uv - 0.5;
