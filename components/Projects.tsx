@@ -151,7 +151,7 @@ function ProjectCard({ project, onClick, colSpan, aspect, index }: CardProps) {
             muted
             loop
             playsInline
-            preload="none"
+            preload="metadata"
           />
         )}
 

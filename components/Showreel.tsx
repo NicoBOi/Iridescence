@@ -11,6 +11,7 @@ export default function Showreel() {
   const labelRef = useRef<HTMLParagraphElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const [muted, setMuted] = useState(true)
+  const [videoReady, setVideoReady] = useState(false)
 
   useEffect(() => {
     const frame = frameRef.current
@@ -18,7 +19,6 @@ export default function Showreel() {
     const video = videoRef.current
     if (!frame || !label || !video) return
 
-    // GSAP entrance — frame scales in from slightly smaller
     gsap.fromTo(
       frame,
       { scale: 0.92, opacity: 0 },
@@ -45,7 +45,6 @@ export default function Showreel() {
       }
     )
 
-    // Autoplay muted when enters viewport
     ScrollTrigger.create({
       trigger: frame,
       start: 'top 75%',
@@ -71,51 +70,53 @@ export default function Showreel() {
         Showreel 2024
       </p>
 
-      {/* Frame — rounded corners */}
       <div
         ref={frameRef}
         className="relative w-full aspect-video overflow-hidden rounded-xl bg-black"
         style={{ opacity: 0 }}
       >
-        {/* Video — muted autoplay loop */}
+        {/* Video */}
         <video
           ref={videoRef}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover z-[1]"
           src="/videos/showreel.mp4"
           muted
           loop
           playsInline
-          preload="none"
+          preload="auto"
+          onCanPlay={() => setVideoReady(true)}
         />
 
-        {/* Placeholder (shows while no video file) */}
-        <div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none"
-          style={{
-            background: 'linear-gradient(135deg, #0c0f18 0%, #080b10 50%, #0b0e18 100%)',
-          }}
-        >
+        {/* Placeholder — hidden once video is ready */}
+        {!videoReady && (
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 flex items-center justify-center pointer-events-none z-[2]"
             style={{
-              background: 'radial-gradient(ellipse 55% 38% at 50% 44%, rgba(155,165,205,0.06) 0%, transparent 65%)',
+              background: 'linear-gradient(135deg, #0c0f18 0%, #080b10 50%, #0b0e18 100%)',
             }}
-          />
-          <div className="relative z-10 text-center select-none">
-            <p
-              className="font-display font-light text-white/8 tracking-[0.35em]"
-              style={{ fontSize: 'clamp(1rem, 3vw, 2rem)' }}
-            >
-              IRIDECENCE
-            </p>
-            <p className="font-sans text-[8px] tracking-[0.5em] text-white/12 uppercase mt-2">
-              Place showreel.mp4 in /public
-            </p>
+          >
+            <div
+              className="absolute inset-0"
+              style={{
+                background: 'radial-gradient(ellipse 55% 38% at 50% 44%, rgba(155,165,205,0.06) 0%, transparent 65%)',
+              }}
+            />
+            <div className="relative z-10 text-center select-none">
+              <p
+                className="font-display font-light text-white/[0.08] tracking-[0.35em]"
+                style={{ fontSize: 'clamp(1rem, 3vw, 2rem)' }}
+              >
+                IRIDECENCE
+              </p>
+              <p className="font-sans text-[8px] tracking-[0.5em] text-white/[0.12] uppercase mt-2">
+                Chargement…
+              </p>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Sound toggle — bottom right, always accessible on hover */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 flex items-end justify-end px-5 py-4 opacity-0 hover:opacity-100 transition-opacity duration-400 group-hover:opacity-100"
+        {/* Sound toggle */}
+        <div className="absolute bottom-0 left-0 right-0 z-[3] flex items-end justify-end px-5 py-4 opacity-0 hover:opacity-100 transition-opacity duration-400"
           style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%)' }}
         >
           <button
