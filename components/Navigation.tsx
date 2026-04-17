@@ -25,9 +25,9 @@ export default function Navigation() {
         <Image
           src="/logo.png"
           alt="IRIDESCENCE"
-          width={40}
-          height={40}
-          style={{ filter: 'invert(1)', opacity: 0.8 }}
+          width={52}
+          height={52}
+          style={{ filter: 'invert(1) brightness(8)', mixBlendMode: 'screen', opacity: 0.75 }}
           className="hover:opacity-100 transition-opacity duration-300"
         />
       </a>
