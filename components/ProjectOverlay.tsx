@@ -88,7 +88,7 @@ export default function ProjectOverlay({ project, onClose }: Props) {
       <div ref={contentRef} className="flex flex-col md:flex-row w-full h-full" style={{ opacity: 0 }}>
 
         {/* Left — video panel, breathing room */}
-        <div className="w-full md:w-3/5 h-56 md:h-full flex items-center justify-center p-5 md:p-10 bg-black flex-shrink-0">
+        <div className="w-full md:w-3/5 h-56 md:h-full flex items-center justify-center pt-16 px-5 pb-5 md:p-10 bg-black flex-shrink-0">
           {/* 16:9 video, same shape as project cards */}
           <div className="w-full aspect-video relative overflow-hidden rounded-xl irid-border bg-black">
             {/* Oversized YT iframe — hides chrome */}

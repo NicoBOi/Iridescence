@@ -28,7 +28,7 @@ export default function Navigation() {
           width={52}
           height={52}
           style={{ filter: 'invert(1)', opacity: 0.85 }}
-          className="hover:opacity-100 transition-opacity duration-300"
+          className="w-8 h-8 md:w-[52px] md:h-[52px] hover:opacity-100 transition-opacity duration-300"
         />
       </a>
 

@@ -14,9 +14,7 @@ export default function Showreel() {
   const labelRef = useRef<HTMLParagraphElement>(null)
   const playerDivRef = useRef<HTMLDivElement>(null)
   const playerRef = useRef<any>(null)
-  const [muted, setMuted] = useState(true)
-  const [playing, setPlaying] = useState(false)
-  const [showIcon, setShowIcon] = useState(false)
+  const [fullscreen, setFullscreen] = useState(false)
 
   useEffect(() => {
     const frame = frameRef.current
@@ -44,14 +42,99 @@ export default function Showreel() {
           iv_load_policy: 3, disablekb: 1, playsinline: 1, showinfo: 0,
         },
         events: {
-          onReady: (e: any) => { e.target.playVideo(); setPlaying(true) },
-          onStateChange: (e: any) => { setPlaying(e.data === 1) },
+          onReady: (e: any) => { e.target.playVideo() },
         },
       })
     })
 
     return () => { playerRef.current?.destroy() }
   }, [])
+
+  return (
+    <>
+      <section className="bg-black pt-10 pb-0 px-6 md:px-14">
+        <p
+          ref={labelRef}
+          className="font-sans text-[9px] tracking-[0.55em] text-white/25 uppercase mb-6"
+          style={{ opacity: 0 }}
+        >
+          Showreel 2024
+        </p>
+
+        <div
+          ref={frameRef}
+          className="relative w-full aspect-video overflow-hidden rounded-xl bg-black irid-border cursor-pointer"
+          style={{ opacity: 0 }}
+          onClick={() => setFullscreen(true)}
+        >
+          {/* YT player — oversized to hide chrome */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%', left: '50%',
+              width: '160%', height: '160%',
+              transform: 'translate(-50%, -50%)',
+              pointerEvents: 'none',
+            }}
+          >
+            <div ref={playerDivRef} style={{ width: '100%', height: '100%' }} />
+          </div>
+
+          {/* Play hint overlay */}
+          <div className="absolute inset-0 z-[4] flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+            <div className="w-16 h-16 rounded-full bg-black/50 flex items-center justify-center">
+              <svg width="20" height="20" viewBox="0 0 18 18" fill="none">
+                <path d="M5 3.5L14.5 9L5 14.5V3.5Z" fill="rgba(255,255,255,0.8)"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {fullscreen && (
+        <ShowreelFullscreen onClose={() => setFullscreen(false)} />
+      )}
+    </>
+  )
+}
+
+function ShowreelFullscreen({ onClose }: { onClose: () => void }) {
+  const overlayRef = useRef<HTMLDivElement>(null)
+  const playerDivRef = useRef<HTMLDivElement>(null)
+  const playerRef = useRef<any>(null)
+  const [muted, setMuted] = useState(false)
+  const [playing, setPlaying] = useState(false)
+  const [showIcon, setShowIcon] = useState(false)
+
+  useEffect(() => {
+    const overlay = overlayRef.current
+    if (overlay) gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' })
+
+    loadYouTubeAPI().then(() => {
+      if (!playerDivRef.current) return
+      playerRef.current = new (window as any).YT.Player(playerDivRef.current, {
+        videoId: SHOWREEL_ID,
+        playerVars: {
+          autoplay: 1, mute: 0,
+          controls: 0, modestbranding: 1, rel: 0,
+          iv_load_policy: 3, disablekb: 1, playsinline: 1, showinfo: 0,
+        },
+        events: {
+          onReady: (e: any) => { e.target.playVideo(); setPlaying(true) },
+          onStateChange: (e: any) => { setPlaying(e.data === 1) },
+        },
+      })
+    })
+
+    document.body.style.overflow = 'hidden'
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', onKey)
+      playerRef.current?.destroy()
+    }
+  }, [onClose])
 
   const toggleSound = () => {
     const p = playerRef.current
@@ -69,68 +152,67 @@ export default function Showreel() {
   }
 
   return (
-    <section className="bg-black pt-10 pb-0 px-6 md:px-14">
-      <p
-        ref={labelRef}
-        className="font-sans text-[9px] tracking-[0.55em] text-white/25 uppercase mb-6"
-        style={{ opacity: 0 }}
+    <div
+      ref={overlayRef}
+      className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+      style={{ opacity: 0 }}
+    >
+      {/* Close */}
+      <button
+        onClick={onClose}
+        className="absolute top-6 right-7 text-lg text-white/25 hover:text-white transition-colors duration-300 z-20"
+        aria-label="Close"
       >
-        Showreel 2024
-      </p>
+        ×
+      </button>
 
-      <div
-        ref={frameRef}
-        className="relative w-full aspect-video overflow-hidden rounded-xl bg-black irid-border"
-        style={{ opacity: 0 }}
-      >
-        {/* YT player — oversized to hide chrome */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%', left: '50%',
-            width: '160%', height: '160%',
-            transform: 'translate(-50%, -50%)',
-            pointerEvents: 'none',
-          }}
-        >
-          <div ref={playerDivRef} style={{ width: '100%', height: '100%' }} />
-        </div>
-
-        {/* Click to play/pause */}
-        <div
-          className="absolute inset-0 z-[4] cursor-pointer"
-          onClick={togglePlay}
-        />
-
-        {/* Play/pause flash icon */}
-        {showIcon && (
-          <div className="absolute inset-0 z-[6] flex items-center justify-center pointer-events-none">
-            <div className="w-16 h-16 rounded-full bg-black/50 flex items-center justify-center">
-              {playing
-                ? <svg width="20" height="20" viewBox="0 0 18 18" fill="none"><rect x="4" y="3" width="3.5" height="12" rx="1" fill="rgba(255,255,255,0.8)"/><rect x="10.5" y="3" width="3.5" height="12" rx="1" fill="rgba(255,255,255,0.8)"/></svg>
-                : <svg width="20" height="20" viewBox="0 0 18 18" fill="none"><path d="M5 3.5L14.5 9L5 14.5V3.5Z" fill="rgba(255,255,255,0.8)"/></svg>
-              }
-            </div>
-          </div>
-        )}
-
-        {/* Sound toggle — visible on hover */}
-        <div
-          className="absolute bottom-0 left-0 right-0 z-10 flex justify-end px-5 py-4 opacity-0 hover:opacity-100 transition-opacity duration-300"
-          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%)' }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <button
-            onClick={toggleSound}
-            className="flex items-center gap-2 font-sans text-[8px] tracking-[0.35em] text-white/50 hover:text-white/90 uppercase transition-colors duration-300"
-            style={{ pointerEvents: 'auto' }}
-            aria-label={muted ? 'Activer le son' : 'Couper le son'}
+      {/* 16:9 container with breathing room */}
+      <div className="w-full max-w-6xl px-6 md:px-14">
+        <div className="w-full aspect-video relative overflow-hidden rounded-xl irid-border bg-black">
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%', left: '50%',
+              width: '125%', height: '125%',
+              transform: 'translate(-50%, -50%)',
+              pointerEvents: 'none',
+            }}
           >
-            {muted ? <><SoundOffIcon /><span>Son</span></> : <><SoundOnIcon /><span>Muet</span></>}
-          </button>
+            <div ref={playerDivRef} style={{ width: '100%', height: '100%' }} />
+          </div>
+
+          {/* Click overlay */}
+          <div className="absolute inset-0 z-10 cursor-pointer" onClick={togglePlay} />
+
+          {/* Flash icon */}
+          {showIcon && (
+            <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+              <div className="w-16 h-16 rounded-full bg-black/50 flex items-center justify-center">
+                {playing
+                  ? <svg width="20" height="20" viewBox="0 0 18 18" fill="none"><rect x="4" y="3" width="3.5" height="12" rx="1" fill="rgba(255,255,255,0.8)"/><rect x="10.5" y="3" width="3.5" height="12" rx="1" fill="rgba(255,255,255,0.8)"/></svg>
+                  : <svg width="20" height="20" viewBox="0 0 18 18" fill="none"><path d="M5 3.5L14.5 9L5 14.5V3.5Z" fill="rgba(255,255,255,0.8)"/></svg>
+                }
+              </div>
+            </div>
+          )}
+
+          {/* Bottom controls */}
+          <div
+            className="absolute bottom-0 left-0 right-0 z-30 flex justify-end px-5 py-4"
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%)' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={toggleSound}
+              className="flex items-center gap-2 font-sans text-[8px] tracking-[0.35em] text-white/50 hover:text-white/90 uppercase transition-colors duration-300"
+              aria-label={muted ? 'Activer le son' : 'Couper le son'}
+            >
+              {muted ? <><SoundOffIcon /><span>Son</span></> : <><SoundOnIcon /><span>Muet</span></>}
+            </button>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   )
 }
 
