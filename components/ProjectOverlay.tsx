@@ -23,18 +23,18 @@ interface Props {
 
 export default function ProjectOverlay({ project, onClose }: Props) {
   const overlayRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
+  const cardRef = useRef<HTMLDivElement>(null)
   const playerDivRef = useRef<HTMLDivElement>(null)
   const playerRef = useRef<any>(null)
   const [muted, setMuted] = useState(true)
 
   useEffect(() => {
     const overlay = overlayRef.current
-    const content = contentRef.current
-    if (!overlay || !content) return
+    const card = cardRef.current
+    if (!overlay || !card) return
 
-    gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'power2.out' })
-    gsap.fromTo(content, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out', delay: 0.05 })
+    gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' })
+    gsap.fromTo(card, { opacity: 0, y: 20, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: 'power3.out', delay: 0.05 })
 
     loadYouTubeAPI().then(() => {
       if (!playerDivRef.current) return
@@ -69,17 +69,30 @@ export default function ProjectOverlay({ project, onClose }: Props) {
   }
 
   return (
+    /* Backdrop */
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 bg-black flex"
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
       style={{ opacity: 0 }}
       onClick={(e) => { if (e.target === overlayRef.current) onClose() }}
     >
-      <div ref={contentRef} className="flex flex-col md:flex-row w-full h-full" style={{ opacity: 0 }}>
+      {/* Floating card */}
+      <div
+        ref={cardRef}
+        className="relative w-full max-w-6xl h-[80vh] flex flex-col md:flex-row rounded-2xl overflow-hidden bg-[#080808]"
+        style={{ opacity: 0 }}
+      >
+        {/* Close */}
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 z-20 text-lg text-white/30 hover:text-white transition-colors duration-300 leading-none"
+          aria-label="Close"
+        >
+          ×
+        </button>
 
-        {/* Left — YouTube player, no chrome */}
-        <div className="w-full md:w-1/2 h-48 md:h-full relative flex-shrink-0 overflow-hidden bg-black">
-          {/* Oversized player to hide YouTube UI */}
+        {/* Left — video (2/3) */}
+        <div className="w-full md:w-2/3 h-56 md:h-full relative overflow-hidden flex-shrink-0 bg-black">
           <div
             style={{
               position: 'absolute',
@@ -107,46 +120,38 @@ export default function ProjectOverlay({ project, onClose }: Props) {
           </div>
         </div>
 
-        {/* Right — details */}
-        <div className="flex-1 flex flex-col justify-center px-10 md:px-16 py-12 relative overflow-y-auto">
-          <button
-            onClick={onClose}
-            className="absolute top-7 right-8 text-xl text-white/30 hover:text-white transition-colors duration-300"
-            aria-label="Close"
-          >
-            ×
-          </button>
-
-          <span className="font-display text-6xl font-light text-white/[0.07] leading-none select-none mb-2">
+        {/* Right — details (1/3) */}
+        <div className="flex-1 flex flex-col justify-center px-8 md:px-10 py-10 overflow-y-auto border-l border-white/[0.06]">
+          <span className="font-display text-5xl font-light text-white/[0.06] leading-none select-none mb-2">
             {project.id}
           </span>
 
-          <h2 className="font-display text-3xl md:text-4xl font-light tracking-wide text-white mt-3 mb-6">
+          <h2 className="font-display text-2xl md:text-3xl font-light tracking-wide text-white mt-2 mb-5">
             {project.title}
           </h2>
 
-          <div className="flex gap-8 mb-7">
+          <div className="flex flex-col gap-3 mb-6">
             {[
               { label: 'Genre',    value: project.genre    },
               { label: 'Year',     value: project.year     },
               { label: 'Duration', value: project.duration },
             ].map(({ label, value }) => (
-              <div key={label}>
-                <p className="font-sans text-[8px] tracking-[0.4em] text-white/25 uppercase mb-1">{label}</p>
+              <div key={label} className="flex items-baseline gap-3">
+                <p className="font-sans text-[8px] tracking-[0.4em] text-white/25 uppercase w-16 flex-shrink-0">{label}</p>
                 <p className="font-sans text-[10px] tracking-widest text-white/65 uppercase">{value}</p>
               </div>
             ))}
           </div>
 
-          <div className="w-12 h-px bg-white/15 mb-7" />
+          <div className="w-8 h-px bg-white/15 mb-6" />
 
-          <p className="font-sans text-sm text-white/45 leading-relaxed max-w-sm mb-10">
+          <p className="font-sans text-xs text-white/40 leading-relaxed mb-8">
             {project.description}
           </p>
 
           <button
             onClick={onClose}
-            className="self-start font-sans text-[9px] tracking-widest uppercase px-7 py-3.5 border border-white/10 text-white/35 hover:border-white/25 hover:text-white/60 transition-all duration-300"
+            className="self-start font-sans text-[8px] tracking-widest uppercase px-6 py-3 border border-white/10 text-white/30 hover:border-white/25 hover:text-white/55 transition-all duration-300"
           >
             Back
           </button>

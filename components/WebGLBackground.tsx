@@ -14,6 +14,7 @@ void main() {
 const fragmentShader = `
 uniform float uTime;
 uniform vec2 uResolution;
+uniform vec2 uMouse;
 varying vec2 vUv;
 
 vec3 spectral(float t) {
@@ -52,9 +53,14 @@ void main() {
   vec2 uv = vUv;
   float t = uTime * 0.06;
 
-  vec2 q = vec2(fbm(uv + vec2(0.0, 0.0)), fbm(uv + vec2(5.2, 1.3)));
-  vec2 r = vec2(fbm(uv + 4.0 * q + vec2(1.7 + t * 0.15, 9.2)),
-                fbm(uv + 4.0 * q + vec2(8.3 + t * 0.1,  2.8)));
+  // Mouse influence — pulls the domain warping toward cursor
+  vec2 mouse = uMouse - 0.5;
+  vec2 mouseWarp = mouse * 0.55;
+
+  vec2 q = vec2(fbm(uv + mouseWarp * 0.4 + vec2(0.0, 0.0)),
+                fbm(uv + mouseWarp * 0.4 + vec2(5.2, 1.3)));
+  vec2 r = vec2(fbm(uv + 4.0 * q + vec2(1.7 + t * 0.15, 9.2) + mouseWarp * 0.25),
+                fbm(uv + 4.0 * q + vec2(8.3 + t * 0.1,  2.8) + mouseWarp * 0.25));
   float f = fbm(uv + 4.0 * r + vec2(t * 0.08));
 
   float edge     = abs(f - 0.5);
@@ -62,10 +68,14 @@ void main() {
   float glowMask = smoothstep(0.42, 0.78, f);
   float flareMask = smoothstep(0.62, 0.82, f) * smoothstep(0.0, 0.3, veinMask);
 
+  // Extra brightness near cursor
+  float mouseDist = length(uv - uMouse);
+  float mouseGlow = smoothstep(0.4, 0.0, mouseDist) * 0.18;
+
   vec3 iridColor = spectral(f * 2.5 + t * 0.12);
   vec3 base = vec3(0.014, 0.014, 0.018);
 
-  float intensity = veinMask * 0.32 + glowMask * 0.10 + flareMask * 0.45;
+  float intensity = veinMask * 0.32 + glowMask * 0.10 + flareMask * 0.45 + mouseGlow;
   vec3 color = base + iridColor * intensity;
 
   vec2 c = uv - 0.5;
@@ -80,6 +90,7 @@ export default function WebGLBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animRef   = useRef<number>(0)
   const pausedRef = useRef(false)
+  const targetMouseRef = useRef(new THREE.Vector2(0.5, 0.5))
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -90,7 +101,6 @@ export default function WebGLBackground() {
     const w = parent.offsetWidth  || window.innerWidth
     const h = parent.offsetHeight || window.innerHeight
 
-    // Lower pixel ratio on mobile for performance
     const dpr = isMobile
       ? Math.min(window.devicePixelRatio, 1.0)
       : Math.min(window.devicePixelRatio, 1.5)
@@ -105,6 +115,7 @@ export default function WebGLBackground() {
     const uniforms = {
       uTime:       { value: 0 },
       uResolution: { value: new THREE.Vector2(w, h) },
+      uMouse:      { value: new THREE.Vector2(0.5, 0.5) },
     }
 
     scene.add(new THREE.Mesh(
@@ -112,7 +123,16 @@ export default function WebGLBackground() {
       new THREE.ShaderMaterial({ vertexShader, fragmentShader, uniforms })
     ))
 
-    // Target 30 fps on mobile, 60 on desktop
+    // Track mouse — smooth lerp in render loop
+    const onMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect()
+      targetMouseRef.current.set(
+        (e.clientX - rect.left) / rect.width,
+        1.0 - (e.clientY - rect.top) / rect.height
+      )
+    }
+    window.addEventListener('mousemove', onMouseMove, { passive: true })
+
     const frameInterval = isMobile ? 1000 / 30 : 0
     let lastFrame = 0
     const startTime = performance.now()
@@ -123,15 +143,15 @@ export default function WebGLBackground() {
       if (frameInterval && now - lastFrame < frameInterval) return
       lastFrame = now
       uniforms.uTime.value = (now - startTime) / 1000
+      // Smooth mouse lerp — lazy follow
+      uniforms.uMouse.value.lerp(targetMouseRef.current, 0.025)
       renderer.render(scene, camera)
     }
     animRef.current = requestAnimationFrame(animate)
 
-    // Pause rendering when tab is hidden
     const onVisibility = () => { pausedRef.current = document.hidden }
     document.addEventListener('visibilitychange', onVisibility)
 
-    // ResizeObserver instead of window resize
     const ro = new ResizeObserver(() => {
       const nw = parent.offsetWidth  || window.innerWidth
       const nh = parent.offsetHeight || window.innerHeight
@@ -142,6 +162,7 @@ export default function WebGLBackground() {
 
     return () => {
       cancelAnimationFrame(animRef.current)
+      window.removeEventListener('mousemove', onMouseMove)
       document.removeEventListener('visibilitychange', onVisibility)
       ro.disconnect()
       renderer.dispose()
