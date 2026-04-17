@@ -126,7 +126,7 @@ function ProjectCard({ project, onClick, colSpan, aspect, index }: CardProps) {
       onClick={() => onClick(project)}
     >
       <div
-        className={`w-full ${aspect} relative grain overflow-hidden`}
+        className={`w-full ${aspect} relative grain overflow-hidden rounded-xl irid-border`}
         style={{
           background: `linear-gradient(135deg, ${project.color} 0%, ${project.colorB} 100%)`,
         }}

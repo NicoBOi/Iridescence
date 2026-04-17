@@ -142,6 +142,20 @@
   transform: scaleX(1);
 }
 
+/* ─── Iridescent border (animated box-shadow) ─── */
+@keyframes iridBorder {
+  0%   { box-shadow: 0 0 0 1px rgba(200,216,232,0.45), 0 0 8px rgba(200,216,232,0.08); }
+  20%  { box-shadow: 0 0 0 1px rgba(216,208,232,0.55), 0 0 8px rgba(216,208,232,0.10); }
+  40%  { box-shadow: 0 0 0 1px rgba(200,224,218,0.45), 0 0 8px rgba(200,224,218,0.08); }
+  60%  { box-shadow: 0 0 0 1px rgba(232,223,200,0.40), 0 0 8px rgba(232,223,200,0.08); }
+  80%  { box-shadow: 0 0 0 1px rgba(224,204,216,0.50), 0 0 8px rgba(224,204,216,0.09); }
+  100% { box-shadow: 0 0 0 1px rgba(200,216,232,0.45), 0 0 8px rgba(200,216,232,0.08); }
+}
+
+.irid-border {
+  animation: iridBorder 8s ease-in-out infinite;
+}
+
 /* ─── Nav link underline ─── */
 .nav-link {
   position: relative;

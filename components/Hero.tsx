@@ -34,8 +34,8 @@ export default function Hero() {
 
         {/* Title */}
         <h1
-          className="font-display font-light leading-none tracking-[0.18em] text-white"
-          style={{ fontSize: 'clamp(3.5rem, 13vw, 13rem)' }}
+          className="font-display font-light leading-none tracking-[0.02em] md:tracking-[0.18em] text-white"
+          style={{ fontSize: 'clamp(2.2rem, 9vw, 13rem)' }}
           aria-label={TITLE}
         >
           {TITLE.split('').map((char, i) => (

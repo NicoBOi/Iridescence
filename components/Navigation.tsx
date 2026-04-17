@@ -27,12 +27,25 @@ export default function Navigation() {
         IRIDECENCE
       </a>
 
-      <div className="flex items-center gap-10">
+      <div className="hidden md:flex items-center gap-10">
         {(['Work', 'About', 'Contact'] as const).map((label) => (
           <a
             key={label}
             href={`#${label.toLowerCase()}`}
             className="nav-link font-sans text-[10px] tracking-[0.3em] text-white/45 hover:text-white/80 transition-colors duration-300 uppercase"
+          >
+            {label}
+          </a>
+        ))}
+      </div>
+
+      {/* Mobile — three dots menu */}
+      <div className="flex md:hidden items-center gap-5">
+        {(['Work', 'About', 'Contact'] as const).map((label) => (
+          <a
+            key={label}
+            href={`#${label.toLowerCase()}`}
+            className="font-sans text-[8px] tracking-[0.2em] text-white/40 hover:text-white/70 transition-colors duration-300 uppercase"
           >
             {label}
           </a>

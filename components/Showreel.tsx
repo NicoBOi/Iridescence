@@ -69,7 +69,7 @@ export default function Showreel() {
 
       <div
         ref={frameRef}
-        className="relative w-full aspect-video overflow-hidden rounded-xl bg-black"
+        className="relative w-full aspect-video overflow-hidden rounded-xl bg-black irid-border"
         style={{ opacity: 0 }}
       >
         {/* YT player — oversized to hide chrome */}
@@ -77,7 +77,7 @@ export default function Showreel() {
           style={{
             position: 'absolute',
             top: '50%', left: '50%',
-            width: '120%', height: '120%',
+            width: '160%', height: '160%',
             transform: 'translate(-50%, -50%)',
             pointerEvents: 'none',
           }}
