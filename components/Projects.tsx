@@ -14,8 +14,9 @@ const projects: Project[] = [
     year: '2024',
     duration: '18 min',
     genre: 'EXPERIMENTAL',
-    color: '#101828',   // midnight blue
+    color: '#101828',
     colorB: '#060810',
+    video: '/videos/01.mp4',
     description:
       'A fragmented portrait of memory and its erosion. Images that return without context. Silence as evidence. Shot on expired 16mm in abandoned thermal baths.',
   },
@@ -25,8 +26,9 @@ const projects: Project[] = [
     year: '2023',
     duration: '24 min',
     genre: 'DOCUMENTARY',
-    color: '#281a08',   // dark amber
+    color: '#281a08',
     colorB: '#140a04',
+    video: '/videos/02.mp4',
     description:
       'Two fishermen at the edge of a dying sea. The language of labor, of salt-cracked hands and dawn nets. A requiem before the silence arrives.',
   },
@@ -36,8 +38,9 @@ const projects: Project[] = [
     year: '2024',
     duration: '12 min',
     genre: 'FICTION',
-    color: '#082018',   // deep teal
+    color: '#082018',
     colorB: '#04100c',
+    video: '/videos/03.mp4',
     description:
       'Between departure and return, a woman stands at the threshold. The Loire at dusk holds both directions at once. Nothing is decided. Everything is felt.',
   },
@@ -47,8 +50,9 @@ const projects: Project[] = [
     year: '2023',
     duration: '31 min',
     genre: 'DRAMA',
-    color: '#201810',   // warm charcoal
+    color: '#201810',
     colorB: '#100c08',
+    video: '/videos/04.mp4',
     description:
       'A retirement home in winter. Time moves differently here — slower, denser. We follow four residents through the hours no one films. Tenderness without sentimentality.',
   },
@@ -58,8 +62,9 @@ const projects: Project[] = [
     year: '2022',
     duration: '8 min',
     genre: 'EXPERIMENTAL',
-    color: '#180e28',   // deep violet
+    color: '#180e28',
     colorB: '#0c0818',
+    video: '/videos/05.mp4',
     description:
       'Layers of image over image, city over city. The ghosts of what a place was before, bleeding through its present skin. An essay in superimposition.',
   },
@@ -69,8 +74,9 @@ const projects: Project[] = [
     year: '2024',
     duration: '22 min',
     genre: 'DOCUMENTARY',
-    color: '#281408',   // deep sienna
+    color: '#281408',
     colorB: '#180c04',
+    video: '/videos/06.mp4',
     description:
       'Three families, three continents, one long solar day. Light as the only shared grammar. A meditation on simultaneity and the myth of distance.',
   },
@@ -86,6 +92,7 @@ interface CardProps {
 
 function ProjectCard({ project, onClick, colSpan, aspect, index }: CardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     const el = cardRef.current
@@ -97,9 +104,9 @@ function ProjectCard({ project, onClick, colSpan, aspect, index }: CardProps) {
       {
         opacity: 1,
         y: 0,
-        duration: 1.1,
+        duration: 0.55,
         ease: 'power3.out',
-        delay: index * 0.08,
+        delay: index * 0.04,
         force3D: true,
         scrollTrigger: {
           trigger: el,
@@ -111,11 +118,23 @@ function ProjectCard({ project, onClick, colSpan, aspect, index }: CardProps) {
     )
   }, [index])
 
+  const handleMouseEnter = () => {
+    videoRef.current?.play().catch(() => {})
+  }
+  const handleMouseLeave = () => {
+    const v = videoRef.current
+    if (!v) return
+    v.pause()
+    v.currentTime = 0
+  }
+
   return (
     <div
       ref={cardRef}
       className={`${colSpan} project-card group cursor-pointer relative overflow-hidden`}
       onClick={() => onClick(project)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div
         className={`w-full ${aspect} relative grain overflow-hidden`}
@@ -123,7 +142,20 @@ function ProjectCard({ project, onClick, colSpan, aspect, index }: CardProps) {
           background: `linear-gradient(135deg, ${project.color} 0%, ${project.colorB} 100%)`,
         }}
       >
-        {/* Cinematic lens glow — subtle top-center light */}
+        {/* Video — plays on hover */}
+        {project.video && (
+          <video
+            ref={videoRef}
+            src={project.video}
+            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-60 transition-opacity duration-700 z-[0]"
+            muted
+            loop
+            playsInline
+            preload="none"
+          />
+        )}
+
+        {/* Cinematic lens glow */}
         <div
           className="absolute inset-0 z-[1]"
           style={{

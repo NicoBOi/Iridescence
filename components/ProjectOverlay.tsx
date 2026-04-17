@@ -11,6 +11,7 @@ export interface Project {
   genre: string
   color: string
   colorB: string
+  video?: string
   description: string
 }
 
@@ -22,14 +23,17 @@ interface Props {
 export default function ProjectOverlay({ project, onClose }: Props) {
   const overlayRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     const overlay = overlayRef.current
     const content = contentRef.current
     if (!overlay || !content) return
 
-    gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' })
-    gsap.fromTo(content, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.1 })
+    gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'power2.out' })
+    gsap.fromTo(content, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out', delay: 0.05 })
+
+    videoRef.current?.play().catch(() => {})
 
     document.body.style.overflow = 'hidden'
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -49,17 +53,28 @@ export default function ProjectOverlay({ project, onClose }: Props) {
     >
       <div ref={contentRef} className="flex flex-col md:flex-row w-full h-full" style={{ opacity: 0 }}>
 
-        {/* Left — cinematic still */}
+        {/* Left — video or gradient still */}
         <div
-          className="w-full md:w-1/2 h-48 md:h-full relative grain flex-shrink-0"
+          className="w-full md:w-1/2 h-48 md:h-full relative grain flex-shrink-0 overflow-hidden"
           style={{ background: `linear-gradient(140deg, ${project.color} 0%, ${project.colorB} 100%)` }}
         >
+          {project.video && (
+            <video
+              ref={videoRef}
+              src={project.video}
+              className="absolute inset-0 w-full h-full object-cover"
+              muted
+              loop
+              playsInline
+              preload="auto"
+            />
+          )}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 z-[1]"
             style={{ background: 'radial-gradient(ellipse 70% 50% at 35% 40%, rgba(255,255,255,0.03) 0%, transparent 70%)' }}
           />
-          <div className="absolute bottom-8 left-8">
-            <span className="font-display text-[8rem] md:text-[10rem] font-light text-white/04 leading-none select-none">
+          <div className="absolute bottom-8 left-8 z-[2]">
+            <span className="font-display text-[8rem] md:text-[10rem] font-light text-white/[0.04] leading-none select-none">
               {project.id}
             </span>
           </div>
@@ -77,7 +92,7 @@ export default function ProjectOverlay({ project, onClose }: Props) {
           </button>
 
           {/* Ghost number */}
-          <span className="font-display text-6xl font-light text-white/07 leading-none select-none mb-2">
+          <span className="font-display text-6xl font-light text-white/[0.07] leading-none select-none mb-2">
             {project.id}
           </span>
 
@@ -110,12 +125,12 @@ export default function ProjectOverlay({ project, onClose }: Props) {
 
           {/* CTAs */}
           <div className="flex gap-3 flex-wrap">
-            <button className="font-sans text-[9px] tracking-widest uppercase px-7 py-3.5 border border-white/25 hover:border-white hover:bg-white hover:text-black transition-all duration-500">
+            <button className="font-sans text-[9px] tracking-widest uppercase px-7 py-3.5 border border-white/25 hover:border-white hover:bg-white hover:text-black transition-all duration-300">
               View Trailer
             </button>
             <button
               onClick={onClose}
-              className="font-sans text-[9px] tracking-widest uppercase px-7 py-3.5 border border-white/10 text-white/35 hover:border-white/25 hover:text-white/60 transition-all duration-500"
+              className="font-sans text-[9px] tracking-widest uppercase px-7 py-3.5 border border-white/10 text-white/35 hover:border-white/25 hover:text-white/60 transition-all duration-300"
             >
               Back
             </button>

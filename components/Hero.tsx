@@ -27,7 +27,7 @@ export default function Hero() {
         {/* Subtitle */}
         <p
           className="font-sans text-[9px] tracking-[0.55em] text-white/30 uppercase mb-10 fade-in"
-          style={{ animationDelay: '0s', animationDuration: '0.4s' }}
+          style={{ animationDelay: '0s', animationDuration: '0.8s' }}
         >
           Independent Filmmakers Collective
         </p>
@@ -42,7 +42,7 @@ export default function Hero() {
             <span
               key={i}
               className="char-animate inline-block"
-              style={{ animationDelay: `${i * 0.025}s`, animationDuration: '0.5s' }}
+              style={{ animationDelay: `${i * 0.05}s`, animationDuration: '1s' }}
             >
               {char}
             </span>
@@ -52,13 +52,13 @@ export default function Hero() {
         {/* Thin vertical rule */}
         <div
           className="w-px bg-white/15 mt-14 fade-in"
-          style={{ height: '52px', animationDelay: '0.6s', animationDuration: '0.4s' }}
+          style={{ height: '52px', animationDelay: '0.6s', animationDuration: '0.8s' }}
         />
 
         {/* Scroll */}
         <p
           className="font-sans text-[8px] tracking-[0.55em] text-white/22 mt-5 uppercase fade-in"
-          style={{ animationDelay: '0.8s', animationDuration: '0.4s' }}
+          style={{ animationDelay: '0.8s', animationDuration: '0.8s' }}
         >
           Scroll
         </p>
