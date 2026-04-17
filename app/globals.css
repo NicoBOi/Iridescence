@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Ciguatera';
+  src: url('/fonts/ciguatera.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --irid-blue: #c8d8e8;
+  --irid-violet: #d8d0e8;
+  --irid-gold: #e8dfc8;
+  --irid-teal: #c8e0da;
+  --irid-rose: #e0ccd8;
+}
+
+/* Force Ciguatera on all display-font elements */
+.font-display {
+  font-family: 'Ciguatera', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
+
+@layer base {
+  html {
+    background-color: #000;
+    color: #fff;
+  }
+
+  body {
+    background-color: #000;
+    color: #fff;
+    font-family: var(--font-inter), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #000;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.12) #000;
+  }
+}
+
+/* ─── Iridescent shimmer overlay (applied to a sibling div, not the text) ─── */
+.irid-shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 25%,
+    rgba(195, 215, 235, 0.18) 38%,
+    rgba(210, 195, 235, 0.22) 45%,
+    rgba(195, 230, 220, 0.18) 52%,
+    rgba(235, 220, 195, 0.14) 59%,
+    transparent 72%,
+    transparent 100%
+  );
+  background-size: 350% 100%;
+  animation: iridShift 9s ease-in-out infinite;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+@keyframes iridShift {
+  0%   { background-position: 100% 50%; }
+  50%  { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* ─── Hero char entrance (CSS-based, no JS dependency) ─── */
+@keyframes charReveal {
+  from {
+    opacity: 0;
+    transform: translateY(52px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.char-animate {
+  display: inline-block;
+  animation: charReveal 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+  animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease-out both;
+}
+
+/* ─── Film grain overlay ─── */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 2;
+}
+
+/* ─── Line reveal wrapper ─── */
+.line-reveal-wrap {
+  overflow: hidden;
+  display: block;
+}
+
+/* ─── Project card hover line ─── */
+.project-line {
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-card:hover .project-line {
+  transform: scaleX(1);
+}
+
+/* ─── Nav link underline ─── */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: rgba(255,255,255,0.5);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ─── Performance: GPU layers on animated elements ─── */
+.char-animate,
+.line-reveal-wrap > span,
+.project-card {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ─── Performance: contain paint on heavy sections ─── */
+#work,
+#about,
+#contact {
+  contain: paint;
+}
+
+/* ─── Smooth transitions on interactive elements ─── */
+.project-card {
+  transition: opacity 0.3s ease;
+}
+
+/* ─── Video container — no flash on load ─── */
+video {
+  display: block;
+  background: #000;
+}
+
+/* ─── Reduce motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .char-animate { animation: none; opacity: 1; transform: none; }
+  .fade-in      { animation: none; opacity: 1; }
+  .fade-up      { animation: none; opacity: 1; transform: none; }
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

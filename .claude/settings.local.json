@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh api *)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(npm install *)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(curl -sL https://raw.githubusercontent.com/nextlevelbuilder/ui-ux-pro-max-skill/main/src/ui-ux-pro-max/scripts/core.py -o /Users/nicolassempere/.claude/skills/ui-ux-pro-max/scripts/core.py)",
+      "Bash(curl -sL https://raw.githubusercontent.com/nextlevelbuilder/ui-ux-pro-max-skill/main/src/ui-ux-pro-max/scripts/design_system.py -o /Users/nicolassempere/.claude/skills/ui-ux-pro-max/scripts/design_system.py)",
+      "Bash(curl -sL https://raw.githubusercontent.com/nextlevelbuilder/ui-ux-pro-max-skill/main/src/ui-ux-pro-max/scripts/search.py -o /Users/nicolassempere/.claude/skills/ui-ux-pro-max/scripts/search.py)",
+      "Bash(curl -sL https://raw.githubusercontent.com/nextlevelbuilder/ui-ux-pro-max-skill/main/src/ui-ux-pro-max/data/__TRACKED_VAR__ -o /Users/nicolassempere/.claude/skills/ui-ux-pro-max/data/__TRACKED_VAR__)",
+      "Bash(curl -sL \"https://raw.githubusercontent.com/nextlevelbuilder/ui-ux-pro-max-skill/main/.claude/skills/ui-ux-pro-max/SKILL.md\" -o \"/Users/nicolassempere/.claude/skills/ui-ux-pro-max/SKILL.md\")",
+      "Bash(python3 /Users/nicolassempere/.claude/skills/ui-ux-pro-max/scripts/search.py \"saas minimal\" --domain style -n 3)",
+      "Bash(claude mcp *)",
+      "Bash(brew --version)",
+      "Bash(brew install *)",
+      "Bash(npx next *)",
+      "mcp__Claude_Preview__preview_start"
+    ]
+  }
+}
