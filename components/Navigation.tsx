@@ -15,7 +15,7 @@ export default function Navigation() {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-50 py-6 px-8 md:px-10 flex justify-between items-center transition-all duration-700 fade-in ${
+      className={`fixed top-0 left-0 right-0 z-50 py-6 px-8 md:px-10 flex justify-between items-center transition-all duration-300 fade-in ${
         scrolled ? 'bg-black/30 backdrop-blur-md' : 'bg-transparent'
       }`}
       style={{ animationDelay: '1.2s' }}
