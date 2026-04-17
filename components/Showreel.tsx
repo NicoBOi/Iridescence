@@ -7,7 +7,7 @@ import { loadYouTubeAPI } from '@/utils/youtube'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const SHOWREEL_ID = 'uUdBBQAvYnU'
+const SHOWREEL_ID = 'vNVuluWraDI'
 
 export default function Showreel() {
   const frameRef = useRef<HTMLDivElement>(null)
