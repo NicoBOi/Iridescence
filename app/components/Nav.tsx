@@ -25,7 +25,7 @@ export default function Nav() {
       className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-3 transition-all duration-500"
       style={{
         borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
-        backgroundColor: scrolled ? "rgba(8, 8, 8, 0.92)" : "transparent",
+        backgroundColor: scrolled ? "rgba(255, 255, 255, 0.92)" : "transparent",
         backdropFilter: scrolled ? "blur(12px)" : "none",
       }}
     >

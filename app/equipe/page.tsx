@@ -3,13 +3,11 @@
 import { motion } from "framer-motion";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
-import Cursor from "@/app/components/Cursor";
 import { equipe } from "@/data/equipe";
 
 export default function EquipePage() {
   return (
     <>
-      <Cursor />
       <Nav />
       <main className="px-8 pt-32 pb-0 min-h-screen">
         <motion.div

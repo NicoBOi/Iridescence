@@ -1,35 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 export default function HeroSection() {
-  const lineRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Respect reduced-motion: skip the pointer-driven parallax entirely.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const onMouseMove = (e: MouseEvent) => {
-      if (!lineRef.current) return;
-      const x = (e.clientX / window.innerWidth - 0.5) * 12;
-      lineRef.current.style.transform = `translateX(${x}px)`;
-    };
-    window.addEventListener("mousemove", onMouseMove, { passive: true });
-    return () => window.removeEventListener("mousemove", onMouseMove);
-  }, []);
-
   return (
     <section className="relative min-h-screen flex flex-col justify-between px-8 pt-28 pb-12 overflow-hidden">
-      {/* Grain texture */}
-      <div
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
-          backgroundRepeat: "repeat",
-          backgroundSize: "128px 128px",
-        }}
-      />
-
       {/* Main title */}
       <div className="relative z-10 flex-1 flex flex-col justify-center">
         <motion.div
@@ -40,19 +15,17 @@ export default function HeroSection() {
           <h1
             className="font-editorial leading-none select-none"
             style={{
-              fontSize: "clamp(72px, 13vw, 200px)",
+              fontSize: "clamp(44px, 11vw, 170px)",
               color: "var(--text-primary)",
-              letterSpacing: "-0.02em",
+              letterSpacing: "-0.03em",
               lineHeight: 0.92,
             }}
           >
-            Irid<br />
-            <span style={{ color: "var(--accent)" }}>es</span>cence
+            Iridescence
           </h1>
         </motion.div>
 
         <motion.div
-          ref={lineRef}
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
@@ -61,7 +34,6 @@ export default function HeroSection() {
             height: "1px",
             backgroundColor: "var(--border)",
             transformOrigin: "left",
-            transition: "transform 0.4s ease",
             maxWidth: "60%",
           }}
         />
@@ -97,8 +69,8 @@ export default function HeroSection() {
         </span>
         <div className="flex items-center gap-2">
           <div
-            className="w-[6px] h-[6px] rounded-full animate-pulse"
-            style={{ backgroundColor: "var(--accent)" }}
+            className="w-[6px] h-[6px] rounded-full"
+            style={{ backgroundColor: "var(--text-primary)" }}
           />
           <span
             className="text-xs uppercase tracking-[0.2em]"

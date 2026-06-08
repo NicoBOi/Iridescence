@@ -2,16 +2,17 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #080808;
-  --surface: #0f0f0f;
-  --border: #1a1a1a;
-  --text-primary: #e8e4dc;
-  /* Contrast on --bg (#080808): secondary ~6.8:1, muted ~5.3:1 — both pass WCAG AA. */
-  --text-secondary: #9a9a9a;
-  --text-muted: #808080;
+  --bg: #ffffff;
+  --surface: #f2f2f2;
+  --border: #e0e0e0;
+  --text-primary: #0a0a0a;
+  /* Contrast on white: secondary ~7:1, muted ~5.1:1 — both pass WCAG AA. */
+  --text-secondary: #595959;
+  --text-muted: #6e6e6e;
   /* Purely decorative (oversized glyphs, placeholder indices). Not for informational text. */
-  --text-faint: #2f2f2f;
-  --accent: #c8f542;
+  --text-faint: #c8c8c8;
+  /* Strict black and white: no chromatic accent. "Accent" is simply pure ink. */
+  --accent: #0a0a0a;
 }
 
 * {
@@ -58,18 +59,6 @@ button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 1px;
-}
-
-/* The custom cursor replaces the system one only on precise pointers (mouse/trackpad).
-   Touch and coarse pointers keep their native behaviour. */
-@media (pointer: fine) {
-  body {
-    cursor: none;
-  }
-  a,
-  button {
-    cursor: none;
-  }
 }
 
 ::-webkit-scrollbar {

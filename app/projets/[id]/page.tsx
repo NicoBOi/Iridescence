@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/app/components/Nav";
-import Cursor from "@/app/components/Cursor";
 import { projets } from "@/data/projets";
 
 export function generateStaticParams() {
@@ -21,7 +20,6 @@ export default async function ProjetPage({ params }: { params: Promise<{ id: str
 
   return (
     <>
-      <Cursor />
       <Nav />
       <main className="pt-24">
         {/* Hero visuel */}

@@ -3,12 +3,10 @@
 import { motion } from "framer-motion";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
-import Cursor from "@/app/components/Cursor";
 
 export default function ContactPage() {
   return (
     <>
-      <Cursor />
       <Nav />
       <main className="px-8 pt-32 min-h-screen flex flex-col">
         <div className="flex-1 flex flex-col justify-between py-16">

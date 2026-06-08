@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
-import Cursor from "@/app/components/Cursor";
 import { projets, Projet } from "@/data/projets";
 
 function ProjetCard({ projet, index }: { projet: Projet; index: number }) {
@@ -31,7 +30,7 @@ function ProjetCard({ projet, index }: { projet: Projet; index: number }) {
           )}
           <div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            style={{ backgroundColor: "rgba(200, 245, 66, 0.04)" }}
+            style={{ backgroundColor: "rgba(10, 10, 10, 0.04)" }}
           />
         </div>
         <div className="pt-4 pb-8 flex items-start justify-between">
@@ -98,7 +97,6 @@ function EmptyState() {
 export default function ProjetsPage() {
   return (
     <>
-      <Cursor />
       <Nav />
       <main className="px-8 pt-32 pb-0 min-h-screen">
         <motion.div
