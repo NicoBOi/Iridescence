@@ -7,6 +7,8 @@ export default function HeroSection() {
   const lineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Respect reduced-motion: skip the pointer-driven parallax entirely.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const onMouseMove = (e: MouseEvent) => {
       if (!lineRef.current) return;
       const x = (e.clientX / window.innerWidth - 0.5) * 12;
@@ -44,7 +46,7 @@ export default function HeroSection() {
               lineHeight: 0.92,
             }}
           >
-            Iridi<br />
+            Irid<br />
             <span style={{ color: "var(--accent)" }}>es</span>cence
           </h1>
         </motion.div>
@@ -72,7 +74,7 @@ export default function HeroSection() {
           style={{ paddingLeft: "2px" }}
         >
           <p className="text-sm" style={{ color: "var(--text-secondary)", letterSpacing: "0.12em" }}>
-            Maison de production ind&eacute;pendante. Bordeaux.
+            Maison de production indépendante. Bordeaux.
           </p>
           <p className="text-sm" style={{ color: "var(--text-muted)", letterSpacing: "0.12em" }}>
             Films&nbsp;&nbsp;&middot;&nbsp;&nbsp;Documentaires&nbsp;&nbsp;&middot;&nbsp;&nbsp;Clips

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import MotionProvider from "./components/MotionProvider";
 
 export const metadata: Metadata = {
-  title: "Iridescence — Maison de production",
+  metadataBase: new URL("https://iridescence-ten.vercel.app"),
+  title: "Iridescence. Maison de production",
   description: "Maison de production indépendante. Bordeaux. Films, documentaires, clips.",
   openGraph: {
     title: "Iridescence",
@@ -18,7 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="h-full">
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        <MotionProvider>{children}</MotionProvider>
+      </body>
     </html>
   );
 }

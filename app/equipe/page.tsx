@@ -23,7 +23,7 @@ export default function EquipePage() {
               className="text-xs uppercase tracking-[0.25em]"
               style={{ color: "var(--accent)" }}
             >
-              Equipe
+              Équipe
             </span>
             <div style={{ height: "1px", width: "48px", backgroundColor: "var(--border)" }} />
           </div>
@@ -91,8 +91,8 @@ export default function EquipePage() {
                     href={membre.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs uppercase tracking-[0.15em] transition-colors duration-200 hover:text-[var(--accent)]"
-                    style={{ color: "var(--text-muted)" }}
+                    className="text-xs uppercase tracking-[0.15em] transition-colors duration-200 inline-flex items-center min-h-[44px] hover:text-[var(--accent)]"
+                    style={{ color: "var(--text-secondary)" }}
                   >
                     Insta
                   </a>
@@ -102,8 +102,8 @@ export default function EquipePage() {
                     href={membre.vimeo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs uppercase tracking-[0.15em] transition-colors duration-200 hover:text-[var(--accent)]"
-                    style={{ color: "var(--text-muted)" }}
+                    className="text-xs uppercase tracking-[0.15em] transition-colors duration-200 inline-flex items-center min-h-[44px] hover:text-[var(--accent)]"
+                    style={{ color: "var(--text-secondary)" }}
                   >
                     Vimeo
                   </a>

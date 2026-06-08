@@ -1,12 +1,17 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Cursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
+    // Only run the custom cursor on precise pointers; touch/coarse devices keep native input.
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    setEnabled(true);
+
     let mouseX = 0;
     let mouseY = 0;
     let ringX = 0;
@@ -49,6 +54,8 @@ export default function Cursor() {
       cancelAnimationFrame(raf);
     };
   }, []);
+
+  if (!enabled) return null;
 
   return (
     <>

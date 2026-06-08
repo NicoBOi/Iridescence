@@ -8,7 +8,7 @@ export default function NotFound() {
     >
       <span
         className="font-editorial"
-        style={{ fontSize: "clamp(80px, 15vw, 220px)", color: "var(--text-muted)", letterSpacing: "-0.04em", lineHeight: 1 }}
+        style={{ fontSize: "clamp(80px, 15vw, 220px)", color: "var(--text-faint)", letterSpacing: "-0.04em", lineHeight: 1 }}
       >
         404
       </span>
@@ -19,7 +19,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
-          className="text-xs uppercase tracking-[0.2em] transition-colors duration-200 hover:text-[var(--accent)]"
+          className="text-xs uppercase tracking-[0.2em] transition-colors duration-200 inline-flex items-center min-h-[44px] hover:text-[var(--accent)]"
           style={{ color: "var(--text-secondary)" }}
         >
           Retour &rarr;

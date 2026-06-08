@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import Footer from "@/app/components/Footer";
 import Cursor from "@/app/components/Cursor";
@@ -20,10 +21,12 @@ function ProjetCard({ projet, index }: { projet: Projet; index: number }) {
           style={{ backgroundColor: "var(--surface)" }}
         >
           {projet.image && (
-            <img
+            <Image
               src={projet.image}
               alt={projet.titre}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
           )}
           <div
@@ -69,7 +72,7 @@ function EmptyState() {
           >
             <span
               className="text-xs uppercase tracking-[0.2em]"
-              style={{ color: "var(--text-muted)" }}
+              style={{ color: "var(--text-faint)" }}
             >
               {String(i).padStart(2, "0")}
             </span>
@@ -83,7 +86,7 @@ function EmptyState() {
               className="text-xs uppercase tracking-[0.15em]"
               style={{ color: "var(--text-muted)" }}
             >
-              A venir
+              À venir
             </span>
           </div>
         </motion.div>

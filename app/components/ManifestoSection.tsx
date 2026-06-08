@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 
 const words = [
@@ -19,6 +18,7 @@ const words = [
 export default function ManifestoSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-10%" });
+  const reduceMotion = useReducedMotion();
 
   return (
     <section
@@ -38,21 +38,30 @@ export default function ManifestoSection() {
         </div>
 
         <p className="leading-relaxed" style={{ fontSize: "clamp(18px, 2.4vw, 32px)", lineHeight: 1.5 }}>
-          {words.map((word, i) => (
-            <motion.span
-              key={i}
-              initial={{ opacity: 0.08 }}
-              animate={isInView ? { opacity: i < 3 ? 1 : 0.75 } : { opacity: 0.08 }}
-              transition={{ duration: 0.5, delay: i * 0.03, ease: "easeOut" }}
-              className="inline-block mr-[0.28em]"
-              style={{
-                fontWeight: 300,
-                color: i < 3 ? "var(--text-primary)" : "var(--text-secondary)",
-              }}
-            >
-              {word}
-            </motion.span>
-          ))}
+          {words.map((word, i) => {
+            const finalOpacity = i < 3 ? 1 : 0.85;
+            return (
+              <motion.span
+                key={i}
+                initial={reduceMotion ? false : { opacity: 0.1 }}
+                animate={
+                  reduceMotion
+                    ? { opacity: finalOpacity }
+                    : isInView
+                    ? { opacity: finalOpacity }
+                    : { opacity: 0.1 }
+                }
+                transition={{ duration: 0.4, delay: reduceMotion ? 0 : i * 0.015, ease: "easeOut" }}
+                className="inline-block mr-[0.28em]"
+                style={{
+                  fontWeight: 300,
+                  color: i < 3 ? "var(--text-primary)" : "var(--text-secondary)",
+                }}
+              >
+                {word}
+              </motion.span>
+            );
+          })}
         </p>
       </div>
     </section>

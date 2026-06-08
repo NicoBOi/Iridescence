@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import Nav from "@/app/components/Nav";
 import Cursor from "@/app/components/Cursor";
 import { projets } from "@/data/projets";
@@ -8,8 +9,10 @@ export function generateStaticParams() {
   return projets.map((p) => ({ id: p.id }));
 }
 
-export default function ProjetPage({ params }: { params: { id: string } }) {
-  const index = projets.findIndex((p) => p.id === params.id);
+// In this version of Next, `params` is a Promise and must be awaited.
+export default async function ProjetPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const index = projets.findIndex((p) => p.id === id);
   if (index === -1) notFound();
 
   const projet = projets[index];
@@ -27,10 +30,13 @@ export default function ProjetPage({ params }: { params: { id: string } }) {
           style={{ backgroundColor: "var(--surface)" }}
         >
           {projet.image && (
-            <img
+            <Image
               src={projet.image}
               alt={projet.titre}
-              className="w-full h-full object-cover"
+              fill
+              sizes="100vw"
+              priority
+              className="object-cover"
             />
           )}
         </div>
@@ -55,8 +61,8 @@ export default function ProjetPage({ params }: { params: { id: string } }) {
           <div className="flex flex-col gap-6 pt-2">
             {[
               { label: "Type", value: projet.type },
-              { label: "Annee", value: String(projet.annee) },
-              { label: "Role", value: projet.role },
+              { label: "Année", value: String(projet.annee) },
+              { label: "Rôle", value: projet.role },
             ].map(({ label, value }) => (
               <div key={label} style={{ borderBottom: "1px solid var(--border)", paddingBottom: "16px" }}>
                 <p className="text-xs uppercase tracking-[0.18em] mb-2" style={{ color: "var(--text-muted)" }}>
@@ -79,7 +85,7 @@ export default function ProjetPage({ params }: { params: { id: string } }) {
               className="flex flex-col gap-1 group"
             >
               <span className="text-xs uppercase tracking-[0.18em]" style={{ color: "var(--text-muted)" }}>
-                &larr; Precedent
+                &larr; Précédent
               </span>
               <span
                 className="font-editorial group-hover:text-[var(--accent)] transition-colors duration-200"

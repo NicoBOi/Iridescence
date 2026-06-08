@@ -61,7 +61,7 @@ export default function ContactPage() {
               </span>
               <a
                 href="mailto:contact@iridescence.fr"
-                className="text-sm transition-colors duration-200 hover:text-[var(--accent)]"
+                className="text-sm transition-colors duration-200 inline-flex items-center min-h-[44px] w-fit hover:text-[var(--accent)]"
                 style={{ color: "var(--text-secondary)", letterSpacing: "0.04em" }}
               >
                 contact@iridescence.fr
@@ -79,7 +79,7 @@ export default function ContactPage() {
                 href="https://instagram.com/iridescence"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm transition-colors duration-200 hover:text-[var(--accent)]"
+                className="text-sm transition-colors duration-200 inline-flex items-center min-h-[44px] w-fit hover:text-[var(--accent)]"
                 style={{ color: "var(--text-secondary)", letterSpacing: "0.04em" }}
               >
                 @iridescence

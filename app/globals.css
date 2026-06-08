@@ -6,8 +6,11 @@
   --surface: #0f0f0f;
   --border: #1a1a1a;
   --text-primary: #e8e4dc;
-  --text-secondary: #6b6b6b;
-  --text-muted: #2a2a2a;
+  /* Contrast on --bg (#080808): secondary ~6.8:1, muted ~5.3:1 — both pass WCAG AA. */
+  --text-secondary: #9a9a9a;
+  --text-muted: #808080;
+  /* Purely decorative (oversized glyphs, placeholder indices). Not for informational text. */
+  --text-faint: #2f2f2f;
   --accent: #c8f542;
 }
 
@@ -49,6 +52,26 @@ a {
   font-family: 'DM Serif Display', Georgia, serif;
 }
 
+/* Keyboard focus: visible accent ring so the experimental look never hides navigation. */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* The custom cursor replaces the system one only on precise pointers (mouse/trackpad).
+   Touch and coarse pointers keep their native behaviour. */
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
+  a,
+  button {
+    cursor: none;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 1px;
 }
@@ -57,4 +80,19 @@ a {
 }
 ::-webkit-scrollbar-thumb {
   background: var(--border);
+}
+
+/* Respect reduced-motion: neutralise CSS animations/transitions and smooth scroll.
+   Framer Motion transforms are disabled via MotionConfig reducedMotion="user". */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

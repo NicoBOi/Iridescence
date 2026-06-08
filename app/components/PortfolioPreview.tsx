@@ -19,7 +19,7 @@ function EmptySlot({ index }: { index: number }) {
       <div className="relative z-10 flex flex-col gap-2">
         <span
           className="text-xs uppercase tracking-[0.2em]"
-          style={{ color: "var(--text-muted)" }}
+          style={{ color: "var(--text-faint)" }}
         >
           {String(index).padStart(2, "0")}
         </span>
@@ -28,7 +28,7 @@ function EmptySlot({ index }: { index: number }) {
           className="text-xs"
           style={{ color: "var(--text-muted)", letterSpacing: "0.05em" }}
         >
-          A venir
+          À venir
         </span>
       </div>
     </div>
@@ -60,7 +60,7 @@ export default function PortfolioPreview() {
         </div>
         <Link
           href="/projets"
-          className="text-xs uppercase tracking-[0.18em] transition-colors duration-200 hover:opacity-100"
+          className="text-xs uppercase tracking-[0.18em] transition-colors duration-200 inline-flex items-center min-h-[44px] hover:text-[var(--accent)]"
           style={{ color: "var(--text-secondary)" }}
         >
           Tout voir &rarr;
