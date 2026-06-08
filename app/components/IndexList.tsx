@@ -151,12 +151,6 @@ export default function IndexList() {
               </div>
             ))}
       </div>
-
-      {!hasProjects && (
-        <p className="mt-8 uppercase" style={{ fontSize: "11px", letterSpacing: "0.14em", color: "var(--text-muted)" }}>
-          Index en cours de constitution.
-        </p>
-      )}
     </section>
   );
 }

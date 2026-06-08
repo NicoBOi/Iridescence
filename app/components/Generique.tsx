@@ -11,13 +11,10 @@ export default function Generique() {
       className="px-6 md:px-8 py-20 scroll-mt-20"
       style={{ borderTop: "1px solid var(--ink)" }}
     >
-      <div className="flex items-baseline justify-between mb-10">
+      <div className="mb-10">
         <h2 style={{ fontSize: "11px", letterSpacing: "0.2em", color: "var(--text-muted)" }}>
           <ScrambleText text="GÉNÉRIQUE" trigger="view" />
         </h2>
-        <span className="uppercase" style={{ fontSize: "11px", letterSpacing: "0.14em", color: "var(--text-faint)" }}>
-          Cinq postes
-        </span>
       </div>
 
       <div style={{ borderTop: "1px solid var(--border)" }}>
