@@ -4,7 +4,7 @@ import MotionProvider from "./components/MotionProvider";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://iridescence-ten.vercel.app"),
-  title: "Iridescence. Maison de production",
+  title: "Iridescence · Index",
   description: "Maison de production indépendante. Bordeaux. Films, documentaires, clips.",
   openGraph: {
     title: "Iridescence",

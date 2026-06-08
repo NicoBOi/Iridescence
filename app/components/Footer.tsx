@@ -1,15 +1,11 @@
 export default function Footer() {
   return (
     <footer
-      className="px-8 py-10 flex items-center justify-between"
-      style={{ borderTop: "1px solid var(--border)" }}
+      className="px-6 md:px-8 py-8 flex items-center justify-between uppercase"
+      style={{ borderTop: "1px solid var(--ink)", fontSize: "10px", letterSpacing: "0.16em", color: "var(--text-muted)" }}
     >
-      <span className="text-xs" style={{ color: "var(--text-secondary)", letterSpacing: "0.1em" }}>
-        Iridescence &copy; {new Date().getFullYear()}
-      </span>
-      <span className="text-xs" style={{ color: "var(--text-muted)", letterSpacing: "0.08em" }}>
-        Bordeaux
-      </span>
+      <span>Iridescence · Index</span>
+      <span>Bordeaux · {new Date().getFullYear()}</span>
     </footer>
   );
 }

@@ -1,18 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 :root {
-  --bg: #ffffff;
-  --surface: #f2f2f2;
-  --border: #e0e0e0;
-  --text-primary: #0a0a0a;
-  /* Contrast on white: secondary ~7:1, muted ~5.1:1 — both pass WCAG AA. */
-  --text-secondary: #595959;
-  --text-muted: #6e6e6e;
-  /* Purely decorative (oversized glyphs, placeholder indices). Not for informational text. */
-  --text-faint: #c8c8c8;
-  /* Strict black and white: no chromatic accent. "Accent" is simply pure ink. */
-  --accent: #0a0a0a;
+  --bg: #f6f4ef;        /* papier, blanc cassé chaud */
+  --surface: #ebe8df;   /* placeholder visuel, papier plus dense */
+  --border: #d6d1c5;    /* filet chaud */
+  --ink: #1a1714;       /* encre, noir chaud */
+  --text-primary: #1a1714;
+  /* Contraste sur papier : secondary ~6.8:1, muted ~4.8:1 — passent WCAG AA. */
+  --text-secondary: #57534d;
+  --text-muted: #6e6a63;
+  /* Décoratif uniquement : pointillés de table des matières, indices placeholder. */
+  --text-faint: #b8b2a6;
+  --font-display: 'Archivo Narrow', 'Arial Narrow', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
 * {
@@ -29,10 +30,10 @@ html {
 body {
   background-color: var(--bg);
   color: var(--text-primary);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 1.6;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.65;
   letter-spacing: 0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -40,7 +41,7 @@ body {
 }
 
 ::selection {
-  background: var(--accent);
+  background: var(--ink);
   color: var(--bg);
 }
 
@@ -49,16 +50,23 @@ a {
   text-decoration: none;
 }
 
-.font-editorial {
-  font-family: 'DM Serif Display', Georgia, serif;
+/* Masthead, titres, en-têtes de section. */
+.font-display {
+  font-family: var(--font-display);
 }
 
-/* Keyboard focus: visible accent ring so the experimental look never hides navigation. */
+/* Filet de table des matières entre titre et métadonnée. */
+.leader {
+  flex: 1;
+  border-bottom: 1px dotted var(--text-faint);
+  transform: translateY(-3px);
+}
+
+/* Focus clavier : trait d'encre franc, jamais masqué. */
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
-  border-radius: 1px;
 }
 
 ::-webkit-scrollbar {
@@ -71,8 +79,8 @@ button:focus-visible {
   background: var(--border);
 }
 
-/* Respect reduced-motion: neutralise CSS animations/transitions and smooth scroll.
-   Framer Motion transforms are disabled via MotionConfig reducedMotion="user". */
+/* Reduced-motion : neutralise animations/transitions CSS et le scroll lissé.
+   Les transforms Framer sont coupées via MotionConfig reducedMotion="user". */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

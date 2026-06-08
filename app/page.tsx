@@ -1,7 +1,9 @@
 import Nav from "./components/Nav";
-import HeroSection from "./components/HeroSection";
-import ManifestoSection from "./components/ManifestoSection";
-import PortfolioPreview from "./components/PortfolioPreview";
+import Masthead from "./components/Masthead";
+import IndexList from "./components/IndexList";
+import Note from "./components/Note";
+import Generique from "./components/Generique";
+import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
 export default function Home() {
@@ -9,9 +11,11 @@ export default function Home() {
     <>
       <Nav />
       <main>
-        <HeroSection />
-        <ManifestoSection />
-        <PortfolioPreview />
+        <Masthead />
+        <IndexList />
+        <Note />
+        <Generique />
+        <Contact />
       </main>
       <Footer />
     </>
