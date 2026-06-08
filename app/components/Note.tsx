@@ -16,25 +16,23 @@ export default function Note() {
       className="px-6 md:px-8 py-20 scroll-mt-20"
       style={{ borderTop: "1px solid var(--ink)" }}
     >
-      <div className="grid grid-cols-1 md:grid-cols-[160px_minmax(0,1fr)] gap-8 md:gap-12">
-        <h2 className="uppercase" style={{ fontSize: "11px", letterSpacing: "0.2em", color: "var(--text-muted)" }}>
-          Note / Manifeste
-        </h2>
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-12%" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            maxWidth: "62ch",
-            fontSize: "clamp(15px, 1.7vw, 21px)",
-            lineHeight: 1.8,
-            color: "var(--text-primary)",
-          }}
-        >
-          {manifesto}
-        </motion.p>
-      </div>
+      <h2 className="uppercase mb-10" style={{ fontSize: "11px", letterSpacing: "0.2em", color: "var(--text-muted)" }}>
+        Note / Manifeste
+      </h2>
+      <motion.p
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-12%" }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          maxWidth: "60ch",
+          fontSize: "clamp(16px, 1.8vw, 24px)",
+          lineHeight: 1.75,
+          color: "var(--text-primary)",
+        }}
+      >
+        {manifesto}
+      </motion.p>
     </section>
   );
 }

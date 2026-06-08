@@ -22,7 +22,7 @@ export default function Nav() {
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 transition-all duration-300"
+      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-2 transition-all duration-300"
       style={{
         borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
         backgroundColor: scrolled ? "rgba(246, 244, 239, 0.94)" : "transparent",
@@ -31,8 +31,16 @@ export default function Nav() {
     >
       <Link
         href="/"
+        aria-label="Iridescence, accueil"
         className="font-display uppercase inline-flex items-center min-h-[44px]"
-        style={{ fontWeight: 700, fontSize: "15px", letterSpacing: "0.12em" }}
+        style={{
+          fontWeight: 700,
+          fontSize: "15px",
+          letterSpacing: "0.12em",
+          opacity: scrolled ? 1 : 0,
+          pointerEvents: scrolled ? "auto" : "none",
+          transition: "opacity 0.3s ease",
+        }}
       >
         Iridescence
       </Link>

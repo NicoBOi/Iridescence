@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
+/* NB : aucun reset universel ici. Le preflight de Tailwind zéroïse déjà
+   margin/padding/box-sizing dans @layer base ; un `* { margin:0;padding:0 }`
+   hors-layer gagnerait sur les utilities (px-*, py-*, mt-*) et casserait
+   tous les espacements. */
+
 :root {
   --bg: #f6f4ef;        /* papier, blanc cassé chaud */
   --surface: #ebe8df;   /* placeholder visuel, papier plus dense */
@@ -14,12 +19,6 @@
   --text-faint: #b8b2a6;
   --font-display: 'Archivo Narrow', 'Arial Narrow', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {

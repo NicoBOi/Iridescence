@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function Masthead() {
   return (
-    <header className="px-6 md:px-8 pt-24 md:pt-28 pb-10">
+    <header className="px-6 md:px-8 pt-28 md:pt-36 pb-10">
       {/* Ligne d'en-tête du document */}
       <div
         className="flex items-center justify-between uppercase"
@@ -21,8 +21,8 @@ export default function Masthead() {
         className="font-display uppercase mt-4"
         style={{
           fontWeight: 700,
-          fontSize: "clamp(44px, 14vw, 220px)",
-          lineHeight: 0.92,
+          fontSize: "clamp(40px, 13vw, 200px)",
+          lineHeight: 0.9,
           letterSpacing: "0.005em",
           color: "var(--ink)",
         }}
