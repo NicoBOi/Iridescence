@@ -89,6 +89,18 @@ button:focus-visible {
   transform: scaleX(1);
 }
 
+/* Grain pellicule : déplacement saccadé en pas, comme une projection. */
+.grain-shift {
+  animation: grain-shift 0.5s steps(4) infinite;
+}
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-7%, 4%); }
+  50% { transform: translate(5%, -6%); }
+  75% { transform: translate(-4%, -3%); }
+  100% { transform: translate(6%, 5%); }
+}
+
 ::-webkit-scrollbar {
   width: 1px;
 }

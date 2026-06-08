@@ -52,7 +52,10 @@ export default function Nav() {
             <Link
               href={href}
               className="group inline-flex items-center min-h-[44px]"
-              style={{ color: "var(--text-secondary)" }}
+              style={{
+                color: scrolled ? "var(--text-secondary)" : "rgba(246, 244, 239, 0.85)",
+                transition: "color 0.3s ease",
+              }}
             >
               <ScrambleText
                 text={label}
