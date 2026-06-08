@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import ScrambleText from "./ScrambleText";
 
 const manifesto =
   "Iridescence est une maison de production indépendante basée à Bordeaux. " +
@@ -16,8 +17,8 @@ export default function Note() {
       className="px-6 md:px-8 py-20 scroll-mt-20"
       style={{ borderTop: "1px solid var(--ink)" }}
     >
-      <h2 className="uppercase mb-10" style={{ fontSize: "11px", letterSpacing: "0.2em", color: "var(--text-muted)" }}>
-        Note / Manifeste
+      <h2 className="mb-10" style={{ fontSize: "11px", letterSpacing: "0.2em", color: "var(--text-muted)" }}>
+        <ScrambleText text="NOTE / MANIFESTE" trigger="view" />
       </h2>
       <motion.p
         initial={{ opacity: 0, y: 12 }}

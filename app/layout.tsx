@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import MotionProvider from "./components/MotionProvider";
+import Nav from "./components/Nav";
+import Footer from "./components/Footer";
+import ScrollProgress from "./components/ScrollProgress";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://iridescence-ten.vercel.app"),
@@ -21,7 +24,10 @@ export default function RootLayout({
   return (
     <html lang="fr" className="h-full">
       <body className="min-h-full">
+        <ScrollProgress />
+        <Nav />
         <MotionProvider>{children}</MotionProvider>
+        <Footer />
       </body>
     </html>
   );

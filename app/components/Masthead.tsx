@@ -1,6 +1,6 @@
-"use client";
-
-import { motion } from "framer-motion";
+import LetterReveal from "./LetterReveal";
+import Timecode from "./Timecode";
+import RuleDraw from "./RuleDraw";
 
 export default function Masthead() {
   return (
@@ -11,13 +11,10 @@ export default function Masthead() {
         style={{ fontSize: "11px", letterSpacing: "0.16em", color: "var(--text-muted)" }}
       >
         <span>Index des travaux</span>
-        <span>Est. 2024</span>
+        <Timecode />
       </div>
 
-      <motion.h1
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+      <h1
         className="font-display uppercase mt-4"
         style={{
           fontWeight: 700,
@@ -27,15 +24,10 @@ export default function Masthead() {
           color: "var(--ink)",
         }}
       >
-        Iridescence
-      </motion.h1>
+        <LetterReveal text="Iridescence" delay={0.1} stagger={0.05} />
+      </h1>
 
-      <motion.div
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ duration: 1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-        style={{ height: "1px", backgroundColor: "var(--ink)", transformOrigin: "left", marginTop: "18px" }}
-      />
+      <RuleDraw color="var(--ink)" delay={0.5} style={{ marginTop: "18px" }} />
 
       <div
         className="flex flex-col md:flex-row md:items-center md:justify-between gap-1 uppercase"

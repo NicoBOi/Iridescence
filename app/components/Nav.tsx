@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import ScrambleText from "./ScrambleText";
 
 const links = [
   { href: "/#travaux", label: "Travaux" },
@@ -50,14 +51,15 @@ export default function Nav() {
           <li key={href}>
             <Link
               href={href}
-              className="inline-flex items-center min-h-[44px] uppercase transition-opacity duration-200 hover:opacity-100"
-              style={{
-                fontSize: "11px",
-                letterSpacing: "0.14em",
-                color: "var(--text-secondary)",
-              }}
+              className="group inline-flex items-center min-h-[44px]"
+              style={{ color: "var(--text-secondary)" }}
             >
-              {label}
+              <ScrambleText
+                text={label}
+                trigger="hover"
+                className="link-underline uppercase"
+                style={{ fontSize: "11px", letterSpacing: "0.14em" }}
+              />
             </Link>
           </li>
         ))}
