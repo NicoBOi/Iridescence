@@ -1,25 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import LetterReveal from "./LetterReveal";
-import ScrambleText from "./ScrambleText";
 
 const EMAIL = "contact@iridescence.fr";
-
-const links = [
-  { label: "Instagram", value: "@iridescence", href: "https://instagram.com/iridescence" },
-  { label: "Vimeo", value: "iridescence", href: "https://vimeo.com/iridescence" },
-];
-
-const rowClass =
-  "group grid grid-cols-[100px_1fr] md:grid-cols-[180px_1fr] items-center gap-4 min-h-[56px] transition-colors duration-300 hover:bg-[var(--ink)] hover:text-[var(--bg)]";
-const rowStyle: React.CSSProperties = {
-  borderBottom: "1px solid var(--border)",
-  paddingLeft: "8px",
-  paddingRight: "8px",
-  marginLeft: "-8px",
-  marginRight: "-8px",
-};
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
@@ -29,67 +12,158 @@ export default function Contact() {
       await navigator.clipboard.writeText(EMAIL);
       setCopied(true);
       setTimeout(() => setCopied(false), 1600);
-    } catch {
-      /* presse-papiers indisponible : on ne casse rien */
-    }
+    } catch { /* clipboard indisponible */ }
   };
 
   return (
     <section
       id="contact"
-      className="px-6 md:px-8 py-20 scroll-mt-20"
-      style={{ borderTop: "1px solid var(--ink)" }}
+      className="scroll-mt-20"
+      style={{
+        backgroundColor: "var(--bg)",
+        minHeight: "80vh",
+        padding: "100px clamp(24px, 5vw, 80px) 80px",
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+      }}
     >
-      <h2 className="mb-10" style={{ fontSize: "11px", letterSpacing: "0.2em", color: "var(--text-muted)" }}>
-        <ScrambleText text="CONTACT" trigger="view" />
-      </h2>
-
-      <p
-        className="font-display uppercase mb-14"
-        style={{ fontWeight: 600, fontSize: "clamp(28px, 5vw, 64px)", lineHeight: 1.02, letterSpacing: "0.01em", maxWidth: "18ch" }}
+      {/* Label */}
+      <span
+        style={{
+          fontFamily: "var(--serif)",
+          fontSize: "11px",
+          letterSpacing: "0.22em",
+          color: "var(--text-muted)",
+          textTransform: "uppercase",
+          marginBottom: "80px",
+        }}
       >
-        <LetterReveal text="Films, clips, documentaires, projets visuels." view stagger={0.018} />
-      </p>
+        Contact
+      </span>
 
-      <div style={{ borderTop: "1px solid var(--border)" }}>
-        {/* Email : clic pour copier (justif : contact sans friction, retour tactile) */}
-        <button onClick={copy} className={`${rowClass} w-full text-left`} style={rowStyle}>
-          <span className="uppercase" style={{ fontSize: "11px", letterSpacing: "0.14em" }}>
-            Email
-          </span>
-          <span className="flex items-center justify-between gap-4">
-            <span style={{ fontSize: "14px" }}>
-              {copied ? "Copié ✓" : <ScrambleText text={EMAIL} trigger="hover" />}
-            </span>
-            <span className="uppercase opacity-50" style={{ fontSize: "10px", letterSpacing: "0.16em" }}>
-              {copied ? "" : "Copier"}
-            </span>
-          </span>
-        </button>
+      {/* Corps : nom en grand + infos scattées */}
+      <div style={{ position: "relative", flex: 1 }}>
 
-        {links.map(({ label, value, href }) => (
+        {/* Lettres IRIDESCENCE en grand au centre */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            pointerEvents: "none",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "var(--serif)",
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: "clamp(60px, 14vw, 200px)",
+              lineHeight: 1,
+              color: "var(--border)",
+              userSelect: "none",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Iridescence
+          </span>
+        </div>
+
+        {/* Email — gauche */}
+        <div style={{ position: "relative", zIndex: 1, marginBottom: "48px" }}>
+          <button
+            onClick={copy}
+            style={{
+              fontFamily: "var(--serif)",
+              fontStyle: "italic",
+              fontSize: "clamp(16px, 2vw, 28px)",
+              color: "var(--ink)",
+              background: "none",
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+              display: "block",
+              minHeight: "44px",
+            }}
+          >
+            {copied ? "Copié ✓" : EMAIL}
+          </button>
+          <span
+            style={{
+              fontFamily: "var(--serif)",
+              fontSize: "11px",
+              letterSpacing: "0.16em",
+              color: "var(--text-muted)",
+              textTransform: "uppercase",
+              marginTop: "6px",
+              display: "block",
+            }}
+          >
+            {copied ? "" : "Cliquer pour copier"}
+          </span>
+        </div>
+
+        {/* Liens réseaux + localisation — bas droite */}
+        <div
+          style={{
+            position: "absolute",
+            right: 0,
+            bottom: 0,
+            textAlign: "right",
+            zIndex: 1,
+          }}
+        >
           <a
-                       key={label}
-            href={href}
+            href="https://instagram.com/iridescence"
             target="_blank"
             rel="noopener noreferrer"
-            className={rowClass}
-            style={rowStyle}
+            className="link-line"
+            style={{
+              fontFamily: "var(--serif)",
+              fontStyle: "italic",
+              fontSize: "clamp(14px, 1.8vw, 24px)",
+              color: "var(--ink)",
+              display: "block",
+              marginBottom: "8px",
+              minHeight: "44px",
+              lineHeight: "44px",
+            }}
           >
-            <span className="uppercase" style={{ fontSize: "11px", letterSpacing: "0.14em" }}>
-              {label}
-            </span>
-            <span style={{ fontSize: "14px" }}>
-              <ScrambleText text={value} trigger="hover" />
-            </span>
+            Instagram
           </a>
-        ))}
-
-        <div className="grid grid-cols-[100px_1fr] md:grid-cols-[180px_1fr] items-center gap-4 py-4">
-          <span className="uppercase" style={{ fontSize: "11px", letterSpacing: "0.14em", color: "var(--text-muted)" }}>
-            Atelier
+          <a
+            href="https://vimeo.com/iridescence"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-line"
+            style={{
+              fontFamily: "var(--serif)",
+              fontStyle: "italic",
+              fontSize: "clamp(14px, 1.8vw, 24px)",
+              color: "var(--ink)",
+              display: "block",
+              marginBottom: "20px",
+              minHeight: "44px",
+              lineHeight: "44px",
+            }}
+          >
+            Vimeo
+          </a>
+          <span
+            style={{
+              fontFamily: "var(--serif)",
+              fontSize: "12px",
+              letterSpacing: "0.1em",
+              color: "var(--text-muted)",
+            }}
+          >
+            Bordeaux, France
           </span>
-          <span style={{ fontSize: "14px", color: "var(--text-secondary)" }}>Bordeaux, France</span>
         </div>
       </div>
     </section>

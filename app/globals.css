@@ -1,39 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&display=swap');
 @import "tailwindcss";
 
-/* NB : aucun reset universel ici. Le preflight de Tailwind zéroïse déjà
-   margin/padding/box-sizing dans @layer base ; un `* { margin:0;padding:0 }`
-   hors-layer gagnerait sur les utilities (px-*, py-*, mt-*) et casserait
-   tous les espacements. */
-
 :root {
-  --bg: #f6f4ef;        /* papier, blanc cassé chaud */
-  --surface: #ebe8df;   /* placeholder visuel, papier plus dense */
-  --border: #d6d1c5;    /* filet chaud */
-  --ink: #1a1714;       /* encre, noir chaud */
-  --text-primary: #1a1714;
-  /* Contraste sur papier : secondary ~6.8:1, muted ~4.8:1 — passent WCAG AA. */
-  --text-secondary: #57534d;
-  --text-muted: #6e6a63;
-  /* Décoratif uniquement : pointillés de table des matières, indices placeholder. */
-  --text-faint: #b8b2a6;
-  --font-display: 'Archivo Narrow', 'Arial Narrow', sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --bg: #ffffff;
+  --film: #000000;
+  --border: #e2e0dc;
+  --ink: #0d0b09;
+  --text-primary: #0d0b09;
+  --text-secondary: #4a4540;
+  --text-muted: #9a9490;
+  --text-faint: #c8c4be;
+  --serif: 'Cormorant Garamond', 'Georgia', serif;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--bg);
+  background-color: var(--film);
 }
 
 body {
-  background-color: var(--bg);
+  background-color: var(--film);
   color: var(--text-primary);
-  font-family: var(--font-mono);
+  font-family: var(--serif);
   font-weight: 400;
-  font-size: 13px;
-  line-height: 1.65;
-  letter-spacing: 0.01em;
+  font-size: 15px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -49,106 +40,66 @@ a {
   text-decoration: none;
 }
 
-/* Masthead, titres, en-têtes de section. */
-.font-display {
-  font-family: var(--font-display);
-}
-
-/* Filet de table des matières entre titre et métadonnée. */
-.leader {
-  flex: 1;
-  border-bottom: 1px dotted var(--text-faint);
-  transform: translateY(-3px);
-}
-
-/* Focus clavier : trait d'encre franc, jamais masqué. */
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 3px;
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
 }
 
-/* Soulignement qui se trace au survol (justif : trait de plume sous l'entrée). */
-.link-underline {
+/* Soulignement au survol */
+.link-line {
   position: relative;
 }
-.link-underline::after {
+.link-line::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -3px;
+  bottom: -2px;
   width: 100%;
   height: 1px;
   background: currentColor;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.link-underline:hover::after,
-.group:hover .link-underline::after {
-  transform: scaleX(1);
+.link-line:hover::after { transform: scaleX(1); }
+
+/* YouTube cover-fit */
+.yt-cover-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.yt-cover-wrap iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 56.25vw;
+  min-height: 100vh;
+  min-width: 177.78vh;
+  border: none;
 }
 
-/* Grain pellicule : déplacement saccadé en pas, comme une projection. */
+/* Grain pellicule */
 .grain-shift {
-  animation: grain-shift 0.5s steps(4) infinite;
+  animation: grain-shift 0.6s steps(4) infinite;
 }
 @keyframes grain-shift {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-7%, 4%); }
-  50% { transform: translate(5%, -6%); }
-  75% { transform: translate(-4%, -3%); }
-  100% { transform: translate(6%, 5%); }
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-6%, 3%); }
+  50%  { transform: translate(4%, -5%); }
+  75%  { transform: translate(-3%, -2%); }
+  100% { transform: translate(5%, 4%); }
 }
 
-/* Cadre pellicule de la traînée curseur (FilmTrail). Apparaît, puis s'efface. */
-.film-frame {
-  position: absolute;
-  width: 168px;
-  aspect-ratio: 2.39 / 1;
-  transform: translate(-50%, -50%);
-  background-size: cover;
-  background-position: center;
-  box-shadow: inset 0 0 0 1px rgba(246, 244, 239, 0.35), 0 16px 40px rgba(12, 10, 8, 0.4);
-  animation: film-pop 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  filter: grayscale(1) contrast(1.05);
-}
-/* Repères de cadrage aux coins (clap / viseur). */
-.film-frame::before,
-.film-frame::after {
-  content: "";
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  border: 1px solid rgba(246, 244, 239, 0.6);
-}
-.film-frame::before { top: 6px; left: 6px; border-right: 0; border-bottom: 0; }
-.film-frame::after { bottom: 6px; right: 6px; border-left: 0; border-top: 0; }
-@keyframes film-pop {
-  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.82); }
-  18% { opacity: 0.92; }
-  100% { opacity: 0; transform: translate(-50%, -52%) scale(1.06); }
-}
+::-webkit-scrollbar { width: 0; }
 
-::-webkit-scrollbar {
-  width: 1px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-}
-
-/* Reduced-motion : neutralise animations/transitions CSS et le scroll lissé.
-   Les transforms Framer sont coupées via MotionConfig reducedMotion="user". */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

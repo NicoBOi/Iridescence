@@ -1,41 +1,92 @@
-import LetterReveal from "./LetterReveal";
+import YoutubeBackdrop from "./YoutubeBackdrop";
 import Timecode from "./Timecode";
-import CinemaBackdrop from "./CinemaBackdrop";
 
 export default function Masthead() {
   return (
-    <header>
-      {/* Cadre cinéma plein-écran : la première impression est une image de film. */}
-      <section
-        className="relative flex flex-col justify-end overflow-hidden"
-        style={{ height: "92svh", minHeight: "520px", backgroundColor: "#0c0a08" }}
+    <section
+      className="relative flex flex-col"
+      style={{ height: "100svh", minHeight: "560px", backgroundColor: "#000" }}
+    >
+      <YoutubeBackdrop />
+
+      {/* Bord gauche : repère bobine */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          left: "24px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          writingMode: "vertical-rl",
+          fontSize: "11px",
+          letterSpacing: "0.2em",
+          color: "rgba(255,255,255,0.35)",
+          zIndex: 2,
+        }}
       >
-        <CinemaBackdrop />
+        I
+      </div>
 
-        {/* Timecode seul, en haut à droite */}
-        <div
-          className="absolute top-0 right-0 px-6 md:px-8 pt-24 md:pt-28"
-          style={{ fontSize: "11px", letterSpacing: "0.18em", color: "rgba(246,244,239,0.7)", zIndex: 2 }}
+      {/* Timecode — bord droit */}
+      <Timecode
+        style={{
+          position: "absolute",
+          right: "28px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          writingMode: "vertical-rl",
+          fontSize: "10px",
+          letterSpacing: "0.18em",
+          color: "rgba(255,255,255,0.3)",
+          zIndex: 2,
+        }}
+      />
+
+      {/* Centre : wordmark + tagline */}
+      <div
+        className="relative flex flex-col items-center justify-center flex-1 text-center"
+        style={{ zIndex: 2, padding: "0 60px" }}
+      >
+        <h1
+          style={{
+            fontFamily: "var(--serif)",
+            fontStyle: "italic",
+            fontWeight: 400,
+            fontSize: "clamp(48px, 10vw, 160px)",
+            lineHeight: 1,
+            letterSpacing: "0.01em",
+            color: "rgba(255,255,255,0.92)",
+          }}
         >
-          <Timecode />
-        </div>
+          Iridescence
+        </h1>
+        <p
+          style={{
+            fontFamily: "var(--serif)",
+            fontStyle: "italic",
+            fontWeight: 400,
+            fontSize: "clamp(13px, 1.4vw, 18px)",
+            letterSpacing: "0.04em",
+            color: "rgba(255,255,255,0.45)",
+            marginTop: "20px",
+          }}
+        >
+          Maison de production indépendante · Bordeaux
+        </p>
+      </div>
 
-        {/* Titre en bas du cadre, comme un carton de générique */}
-        <div className="relative px-6 md:px-8 pb-10 md:pb-12" style={{ zIndex: 2 }}>
-          <h1
-            className="font-display uppercase"
-            style={{
-              fontWeight: 700,
-              fontSize: "clamp(44px, 13vw, 200px)",
-              lineHeight: 0.9,
-              letterSpacing: "0.005em",
-              color: "var(--bg)",
-            }}
-          >
-            <LetterReveal text="Iridescence" delay={0.1} stagger={0.05} />
-          </h1>
-        </div>
-      </section>
-    </header>
+      {/* Flèche bas */}
+      <div
+        className="relative flex justify-center pb-10"
+        style={{ zIndex: 2 }}
+      >
+        <span
+          aria-hidden
+          style={{ fontSize: "11px", letterSpacing: "0.2em", color: "rgba(255,255,255,0.3)" }}
+        >
+          ↓
+        </span>
+      </div>
+    </section>
   );
 }

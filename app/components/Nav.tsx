@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import ScrambleText from "./ScrambleText";
 
 const links = [
   { href: "/#travaux", label: "Travaux" },
@@ -12,57 +11,67 @@ const links = [
 ];
 
 export default function Nav() {
-  const [scrolled, setScrolled] = useState(false);
+  const [onFilm, setOnFilm] = useState(true);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    const check = () => {
+      // Le masthead fait 100svh. Après on est sur fond blanc.
+      setOnFilm(window.scrollY < window.innerHeight * 0.85);
+    };
+    window.addEventListener("scroll", check, { passive: true });
+    check();
+    return () => window.removeEventListener("scroll", check);
   }, []);
+
+  const fg = onFilm ? "rgba(255,255,255,0.82)" : "var(--ink)";
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-2 transition-all duration-300"
+      className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center text-center"
       style={{
-        borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
-        backgroundColor: scrolled ? "rgba(246, 244, 239, 0.94)" : "transparent",
-        backdropFilter: scrolled ? "blur(8px)" : "none",
+        paddingTop: "28px",
+        paddingBottom: "16px",
+        transition: "color 0.5s ease",
+        color: fg,
+        pointerEvents: "none",
       }}
     >
+      {/* Wordmark */}
       <Link
         href="/"
         aria-label="Iridescence, accueil"
-        className="font-display uppercase inline-flex items-center min-h-[44px]"
         style={{
-          fontWeight: 700,
+          fontFamily: "var(--serif)",
+          fontStyle: "italic",
+          fontWeight: 400,
           fontSize: "15px",
-          letterSpacing: "0.12em",
-          opacity: scrolled ? 1 : 0,
-          pointerEvents: scrolled ? "auto" : "none",
-          transition: "opacity 0.3s ease",
+          letterSpacing: "0.06em",
+          color: fg,
+          transition: "color 0.5s ease",
+          pointerEvents: "auto",
         }}
       >
         Iridescence
       </Link>
 
-      <ul className="flex items-center gap-4 md:gap-6">
+      {/* Liens */}
+      <ul className="flex items-center gap-6 mt-3" style={{ pointerEvents: "auto" }}>
         {links.map(({ href, label }) => (
           <li key={href}>
             <Link
               href={href}
-              className="group inline-flex items-center min-h-[44px]"
+              className="link-line"
               style={{
-                color: scrolled ? "var(--text-secondary)" : "rgba(246, 244, 239, 0.85)",
-                transition: "color 0.3s ease",
+                fontFamily: "var(--serif)",
+                fontStyle: "normal",
+                fontWeight: 400,
+                fontSize: "13px",
+                letterSpacing: "0.04em",
+                color: fg,
+                transition: "color 0.5s ease",
               }}
             >
-              <ScrambleText
-                text={label}
-                trigger="hover"
-                className="link-underline uppercase"
-                style={{ fontSize: "11px", letterSpacing: "0.14em" }}
-              />
+              {label}
             </Link>
           </li>
         ))}

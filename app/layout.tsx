@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://iridescence-ten.vercel.app"),
-  title: "Iridescence · Index",
+  title: "Iridescence",
   description: "Maison de production indépendante. Bordeaux. Films, documentaires, clips.",
   openGraph: {
     title: "Iridescence",
@@ -15,11 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className="h-full">
       <body className="min-h-full">
