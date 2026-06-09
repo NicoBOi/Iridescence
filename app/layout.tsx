@@ -3,6 +3,7 @@ import "./globals.css";
 import MotionProvider from "./components/MotionProvider";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
+import PanelRail from "./components/PanelRail";
 import YoutubeBackdrop from "./components/YoutubeBackdrop";
 
 export const metadata: Metadata = {
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Contenu : couches au-dessus du film. */}
         <div style={{ position: "relative", zIndex: 1 }}>
           <Nav />
+          <PanelRail />
           <MotionProvider>{children}</MotionProvider>
           <Footer />
         </div>

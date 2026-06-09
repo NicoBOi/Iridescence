@@ -3,25 +3,30 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <div
-      className="min-h-screen flex flex-col items-start justify-end px-6 md:px-8 py-16"
-      style={{ backgroundColor: "var(--bg)" }}
+      style={{
+        minHeight: "100svh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "var(--film)",
+        textAlign: "center",
+        padding: "0 24px",
+      }}
     >
-      <span
-        className="font-display"
-        style={{ fontSize: "clamp(80px, 18vw, 260px)", color: "var(--text-faint)", letterSpacing: "0.01em", lineHeight: 1 }}
-      >
+      <span style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: "clamp(72px,16vw,220px)", lineHeight: 1, color: "rgba(255,255,255,0.9)" }}>
         404
       </span>
-      <div style={{ height: "1px", width: "100%", backgroundColor: "var(--ink)", margin: "24px 0" }} />
-      <div className="flex items-center justify-between w-full uppercase" style={{ fontSize: "11px", letterSpacing: "0.14em" }}>
-        <span style={{ color: "var(--text-secondary)" }}>Entrée introuvable dans l&rsquo;index.</span>
-        <Link
-          href="/"
-          className="inline-flex items-center min-h-[44px] transition-opacity duration-200 hover:opacity-60"
-        >
-          Retour &rarr;
-        </Link>
-      </div>
+      <span style={{ fontFamily: "var(--serif)", fontSize: 13, letterSpacing: "0.1em", color: "rgba(255,255,255,0.4)", marginTop: 20 }}>
+        Cette page n&rsquo;existe pas.
+      </span>
+      <Link
+        href="/"
+        className="u"
+        style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 18, color: "rgba(255,255,255,0.85)", marginTop: 32, minHeight: 44, display: "inline-flex", alignItems: "center" }}
+      >
+        Retour
+      </Link>
     </div>
   );
 }

@@ -22,8 +22,7 @@ export default function GeneriquePanel({ onNav: _ }: Props) {
         /* Fond blanc opaque : rupture volontaire, comme une page imprimée dans le film */
         backgroundColor: "rgba(255,255,255,0.97)",
         color: "var(--ink)",
-        padding: "clamp(100px,12vh,160px) clamp(28px,5vw,80px) 80px",
-        overflowY: "auto",
+        padding: "clamp(100px,12vh,160px) clamp(28px,5vw,80px) 90px",
       }}
     >
       <span

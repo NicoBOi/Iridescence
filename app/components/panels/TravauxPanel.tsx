@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { projets } from "@/data/projets";
 import type { PanelId } from "../../page";
 
@@ -15,98 +14,59 @@ function toRoman(n: number) {
 }
 
 const PLACEHOLDERS = 5;
+const X_OFFSET = ["4vw", "14vw", "24vw", "34vw", "42vw"];
 
-// Décalages horizontaux en cascade diagonale
-const X_OFFSET = ["4vw","14vw","24vw","34vw","42vw"];
-
-export default function TravauxPanel({ onNav }: Props) {
+export default function TravauxPanel(_: Props) {
   const [hovered, setHovered] = useState<number | null>(null);
-  const items = projets.length > 0 ? projets : [];
-  const showPlaceholders = PLACEHOLDERS - items.length;
+  const items = projets;
+  const showPlaceholders = Math.max(0, PLACEHOLDERS - items.length);
 
   return (
     <section
       style={{
         minHeight: "100svh",
-        /* Overlay sombre sur la vidéo : le film reste visible en transparence */
-        backgroundColor: "rgba(0,0,0,0.72)",
-        overflowY: "auto",
-        padding: "clamp(100px,12vh,160px) 0 80px",
-        position: "relative",
+        backgroundColor: "rgba(0,0,0,0.70)",
+        padding: "clamp(110px,14vh,180px) 0 90px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
       }}
     >
-      {/* Label */}
-      <div style={{ paddingLeft: "clamp(28px,5vw,80px)", marginBottom: 60 }}>
-        <span
-          style={{
-            fontFamily: "var(--serif)",
-            fontSize: 11,
-            letterSpacing: "0.22em",
-            color: "rgba(255,255,255,0.35)",
-            textTransform: "uppercase",
-          }}
-        >
+      <div style={{ paddingLeft: "clamp(28px,5vw,80px)", marginBottom: 56 }}>
+        <span style={{ fontFamily: "var(--serif)", fontSize: 11, letterSpacing: "0.22em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase" }}>
           Travaux
         </span>
       </div>
 
-      {/* Cascade */}
       <div>
         {items.map((p, i) => (
           <motion.div
             key={p.id}
             initial={{ opacity: 0, x: -12 }}
-            animate={{ opacity: 1, x: 0 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-            style={{ marginLeft: X_OFFSET[Math.min(i, X_OFFSET.length-1)], marginBottom: 48 }}
+            style={{ marginLeft: X_OFFSET[Math.min(i, X_OFFSET.length - 1)], marginBottom: 44 }}
             onMouseEnter={() => setHovered(i)}
             onMouseLeave={() => setHovered(null)}
           >
-            <Link href={`/projets/${p.id}`} style={{ display: "inline-block" }}>
-              <span
-                style={{
-                  display: "block",
-                  fontFamily: "var(--serif)",
-                  fontSize: 11,
-                  letterSpacing: "0.18em",
-                  color: "rgba(255,255,255,0.35)",
-                  marginBottom: 8,
-                }}
-              >
-                {toRoman(i + 1)}
-              </span>
-              <span
-                style={{
-                  display: "block",
-                  fontFamily: "var(--serif)",
-                  fontStyle: "italic",
-                  fontWeight: 400,
-                  fontSize: "clamp(28px,5vw,72px)",
-                  lineHeight: 1,
-                  color: hovered === i ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.92)",
-                  transition: "color 0.5s",
-                  letterSpacing: "0.01em",
-                }}
-              >
-                {p.titre}
-              </span>
-              <span
-                style={{
-                  display: "block",
-                  fontFamily: "var(--serif)",
-                  fontSize: 12,
-                  letterSpacing: "0.1em",
-                  color: "rgba(255,255,255,0.28)",
-                  marginTop: 8,
-                }}
-              >
-                {p.type} · {p.annee}
-              </span>
-            </Link>
+            <span style={{ display: "block", fontFamily: "var(--serif)", fontSize: 11, letterSpacing: "0.18em", color: "rgba(255,255,255,0.35)", marginBottom: 8 }}>
+              {toRoman(i + 1)}
+            </span>
+            <span style={{
+              display: "block",
+              fontFamily: "var(--serif)", fontStyle: "italic", fontSize: "clamp(28px,5vw,72px)", lineHeight: 1,
+              color: hovered === i ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.92)",
+              transition: "color 0.5s", letterSpacing: "0.01em",
+            }}>
+              {p.titre}
+            </span>
+            <span style={{ display: "block", fontFamily: "var(--serif)", fontSize: 12, letterSpacing: "0.1em", color: "rgba(255,255,255,0.28)", marginTop: 8 }}>
+              {p.type} · {p.annee}
+            </span>
           </motion.div>
         ))}
 
-        {/* Placeholders */}
         {Array.from({ length: showPlaceholders }).map((_, i) => {
           const idx = items.length + i;
           return (
@@ -115,31 +75,12 @@ export default function TravauxPanel({ onNav }: Props) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: idx * 0.06 }}
-              style={{ marginLeft: X_OFFSET[Math.min(idx, X_OFFSET.length-1)], marginBottom: 48 }}
+              style={{ marginLeft: X_OFFSET[Math.min(idx, X_OFFSET.length - 1)], marginBottom: 44 }}
             >
-              <span
-                style={{
-                  display: "block",
-                  fontFamily: "var(--serif)",
-                  fontSize: 11,
-                  letterSpacing: "0.18em",
-                  color: "rgba(255,255,255,0.14)",
-                  marginBottom: 8,
-                }}
-              >
+              <span style={{ display: "block", fontFamily: "var(--serif)", fontSize: 11, letterSpacing: "0.18em", color: "rgba(255,255,255,0.14)", marginBottom: 8 }}>
                 {toRoman(idx + 1)}
               </span>
-              <span
-                style={{
-                  display: "block",
-                  fontFamily: "var(--serif)",
-                  fontStyle: "italic",
-                  fontSize: "clamp(28px,5vw,72px)",
-                  lineHeight: 1,
-                  color: "rgba(255,255,255,0.14)",
-                  letterSpacing: "0.01em",
-                }}
-              >
+              <span style={{ display: "block", fontFamily: "var(--serif)", fontStyle: "italic", fontSize: "clamp(28px,5vw,72px)", lineHeight: 1, color: "rgba(255,255,255,0.14)", letterSpacing: "0.01em" }}>
                 À venir
               </span>
             </motion.div>

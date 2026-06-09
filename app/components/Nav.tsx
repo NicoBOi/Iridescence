@@ -10,26 +10,20 @@ const links: { label: string; id: PanelId }[] = [
   { label: "Contact",   id: "contact"   },
 ];
 
-// Canal d'événements entre la page et la nav (évite prop drilling cross-layout).
-export function navigateTo(id: PanelId) {
-  window.dispatchEvent(new CustomEvent("iridescence:nav", { detail: id }));
-}
-
 export default function Nav() {
   const [active, setActive] = useState<PanelId>("hero");
-  // Les panneaux blancs (Generique, Contact) → texte sombre
-  const isLight = active === "generique" || active === "contact";
-  const fg = isLight ? "var(--ink)" : "rgba(255,255,255,0.82)";
+  // Panneaux sur fond blanc → UI sombre.
+  const light = active === "generique" || active === "contact";
+  const ink = light ? "13, 11, 9" : "255, 255, 255";
 
   useEffect(() => {
     const handler = (e: Event) => setActive((e as CustomEvent<PanelId>).detail);
-    window.addEventListener("iridescence:nav", handler);
-    return () => window.removeEventListener("iridescence:nav", handler);
+    window.addEventListener("irid:active", handler);
+    return () => window.removeEventListener("irid:active", handler);
   }, []);
 
-  const go = (id: PanelId) => {
-    window.dispatchEvent(new CustomEvent("iridescence:nav", { detail: id }));
-  };
+  const go = (id: PanelId) =>
+    window.dispatchEvent(new CustomEvent("irid:goto", { detail: id }));
 
   return (
     <nav
@@ -41,22 +35,18 @@ export default function Nav() {
         flexDirection: "column",
         alignItems: "center",
         paddingTop: 28,
-        color: fg,
-        transition: "color 0.5s ease",
         pointerEvents: "none",
       }}
     >
-      {/* Wordmark */}
       <button
         onClick={() => go("hero")}
         style={{
           fontFamily: "var(--serif)",
           fontStyle: "italic",
-          fontWeight: 400,
           fontSize: 15,
           letterSpacing: "0.06em",
-          color: fg,
-          transition: "color 0.5s ease",
+          color: `rgba(${ink}, ${active === "hero" ? 0.92 : 0.82})`,
+          transition: "color 0.6s ease",
           pointerEvents: "auto",
           minHeight: 44,
         }}
@@ -64,8 +54,7 @@ export default function Nav() {
         Iridescence
       </button>
 
-      {/* Liens */}
-      <ul style={{ display: "flex", gap: 28, marginTop: 8, listStyle: "none", padding: 0, margin: "8px 0 0", pointerEvents: "auto" }}>
+      <ul style={{ display: "flex", gap: 28, listStyle: "none", padding: 0, margin: "4px 0 0", pointerEvents: "auto" }}>
         {links.map(({ label, id }) => (
           <li key={id}>
             <button
@@ -73,12 +62,10 @@ export default function Nav() {
               className="u"
               style={{
                 fontFamily: "var(--serif)",
-                fontStyle: "normal",
-                fontWeight: 400,
                 fontSize: 13,
                 letterSpacing: "0.04em",
-                color: active === id ? fg : `${fg.replace("0.82","0.45")}`,
-                transition: "color 0.5s ease",
+                color: `rgba(${ink}, ${active === id ? 0.95 : 0.45})`,
+                transition: "color 0.6s ease",
                 minHeight: 44,
               }}
             >

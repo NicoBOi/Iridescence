@@ -1,4 +1,19 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import type { PanelId } from "../page";
+
 export default function Footer() {
+  const [active, setActive] = useState<PanelId>("hero");
+  const light = active === "generique" || active === "contact";
+  const ink = light ? "13, 11, 9" : "255, 255, 255";
+
+  useEffect(() => {
+    const handler = (e: Event) => setActive((e as CustomEvent<PanelId>).detail);
+    window.addEventListener("irid:active", handler);
+    return () => window.removeEventListener("irid:active", handler);
+  }, []);
+
   return (
     <footer style={{
       position: "fixed",
@@ -9,10 +24,10 @@ export default function Footer() {
       padding: "0 28px 18px",
       pointerEvents: "none",
     }}>
-      <span style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 11, color: "rgba(255,255,255,0.22)", letterSpacing: "0.06em" }}>
+      <span style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 11, color: `rgba(${ink}, 0.32)`, letterSpacing: "0.06em", transition: "color 0.6s ease" }}>
         Bordeaux
       </span>
-      <span style={{ fontFamily: "var(--serif)", fontSize: 11, color: "rgba(255,255,255,0.22)", letterSpacing: "0.14em" }}>
+      <span style={{ fontFamily: "var(--serif)", fontSize: 11, color: `rgba(${ink}, 0.32)`, letterSpacing: "0.14em", transition: "color 0.6s ease" }}>
         {new Date().getFullYear()}
       </span>
     </footer>
