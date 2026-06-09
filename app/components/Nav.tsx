@@ -1,78 +1,89 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import type { PanelId } from "../page";
 
-const links = [
-  { href: "/#travaux", label: "Travaux" },
-  { href: "/#note", label: "Note" },
-  { href: "/#generique", label: "Générique" },
-  { href: "/#contact", label: "Contact" },
+const links: { label: string; id: PanelId }[] = [
+  { label: "Travaux",   id: "travaux"   },
+  { label: "Note",      id: "note"      },
+  { label: "Générique", id: "generique" },
+  { label: "Contact",   id: "contact"   },
 ];
 
+// Canal d'événements entre la page et la nav (évite prop drilling cross-layout).
+export function navigateTo(id: PanelId) {
+  window.dispatchEvent(new CustomEvent("iridescence:nav", { detail: id }));
+}
+
 export default function Nav() {
-  const [onFilm, setOnFilm] = useState(true);
+  const [active, setActive] = useState<PanelId>("hero");
+  // Les panneaux blancs (Generique, Contact) → texte sombre
+  const isLight = active === "generique" || active === "contact";
+  const fg = isLight ? "var(--ink)" : "rgba(255,255,255,0.82)";
 
   useEffect(() => {
-    const check = () => {
-      // Le masthead fait 100svh. Après on est sur fond blanc.
-      setOnFilm(window.scrollY < window.innerHeight * 0.85);
-    };
-    window.addEventListener("scroll", check, { passive: true });
-    check();
-    return () => window.removeEventListener("scroll", check);
+    const handler = (e: Event) => setActive((e as CustomEvent<PanelId>).detail);
+    window.addEventListener("iridescence:nav", handler);
+    return () => window.removeEventListener("iridescence:nav", handler);
   }, []);
 
-  const fg = onFilm ? "rgba(255,255,255,0.82)" : "var(--ink)";
+  const go = (id: PanelId) => {
+    window.dispatchEvent(new CustomEvent("iridescence:nav", { detail: id }));
+  };
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center text-center"
       style={{
-        paddingTop: "28px",
-        paddingBottom: "16px",
-        transition: "color 0.5s ease",
+        position: "fixed",
+        top: 0, left: 0, right: 0,
+        zIndex: 50,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        paddingTop: 28,
         color: fg,
+        transition: "color 0.5s ease",
         pointerEvents: "none",
       }}
     >
       {/* Wordmark */}
-      <Link
-        href="/"
-        aria-label="Iridescence, accueil"
+      <button
+        onClick={() => go("hero")}
         style={{
           fontFamily: "var(--serif)",
           fontStyle: "italic",
           fontWeight: 400,
-          fontSize: "15px",
+          fontSize: 15,
           letterSpacing: "0.06em",
           color: fg,
           transition: "color 0.5s ease",
           pointerEvents: "auto",
+          minHeight: 44,
         }}
       >
         Iridescence
-      </Link>
+      </button>
 
       {/* Liens */}
-      <ul className="flex items-center gap-6 mt-3" style={{ pointerEvents: "auto" }}>
-        {links.map(({ href, label }) => (
-          <li key={href}>
-            <Link
-              href={href}
-              className="link-line"
+      <ul style={{ display: "flex", gap: 28, marginTop: 8, listStyle: "none", padding: 0, margin: "8px 0 0", pointerEvents: "auto" }}>
+        {links.map(({ label, id }) => (
+          <li key={id}>
+            <button
+              onClick={() => go(id)}
+              className="u"
               style={{
                 fontFamily: "var(--serif)",
                 fontStyle: "normal",
                 fontWeight: 400,
-                fontSize: "13px",
+                fontSize: 13,
                 letterSpacing: "0.04em",
-                color: fg,
+                color: active === id ? fg : `${fg.replace("0.82","0.45")}`,
                 transition: "color 0.5s ease",
+                minHeight: 44,
               }}
             >
               {label}
-            </Link>
+            </button>
           </li>
         ))}
       </ul>
