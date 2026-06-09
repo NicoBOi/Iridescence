@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import type { PanelId } from "../../page";
+import type { SectionId } from "../../page";
 
-type Props = { onNav: (id: PanelId) => void };
+type Props = { onNav: (id: SectionId) => void };
 
 export default function NotePanel({ onNav: _ }: Props) {
   return (
@@ -45,8 +45,7 @@ export default function NotePanel({ onNav: _ }: Props) {
           color: "rgba(255,255,255,0.18)",
         }}
       >
-        Note
-      </span>
+        Approche      </span>
 
       <motion.p
         initial={{ opacity: 0, y: 14 }}

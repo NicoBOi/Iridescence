@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { equipe } from "@/data/equipe";
-import type { PanelId } from "../../page";
+import type { SectionId } from "../../page";
 
-type Props = { onNav: (id: PanelId) => void };
+type Props = { onNav: (id: SectionId) => void };
 
 function toRoman(n: number) {
   const v=[1000,900,500,400,100,90,50,40,10,9,5,4,1];
@@ -36,8 +36,7 @@ export default function GeneriquePanel({ onNav: _ }: Props) {
           marginBottom: 80,
         }}
       >
-        Générique
-      </span>
+        Talent      </span>
 
       {/* Grille 3 colonnes */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "0 40px" }}>

@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import type { PanelId } from "../../page";
+import type { SectionId } from "../../page";
 
-type Props = { onNav: (id: PanelId) => void };
+type Props = { onNav: (id: SectionId) => void };
 const EMAIL = "contact@iridescence.fr";
 
 export default function ContactPanel({ onNav: _ }: Props) {

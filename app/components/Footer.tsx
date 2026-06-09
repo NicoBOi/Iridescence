@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { PanelId } from "../page";
+import type { SectionId } from "../page";
 
 export default function Footer() {
-  const [active, setActive] = useState<PanelId>("hero");
-  const light = active === "generique" || active === "contact";
+  const [active, setActive] = useState<SectionId>("featured");
+  const light = active === "talent" || active === "contact";
   const ink = light ? "13, 11, 9" : "255, 255, 255";
 
   useEffect(() => {
-    const handler = (e: Event) => setActive((e as CustomEvent<PanelId>).detail);
-    window.addEventListener("irid:active", handler);
-    return () => window.removeEventListener("irid:active", handler);
+    const handler = (e: Event) => setActive((e as CustomEvent<SectionId>).detail);
+    window.addEventListener("iridescence:nav", handler);
+    return () => window.removeEventListener("iridescence:nav", handler);
   }, []);
 
   return (

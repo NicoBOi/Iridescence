@@ -4,9 +4,9 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { projets, type Projet } from "@/data/projets";
 import { playFilm } from "../FilmPlayer";
-import type { PanelId } from "../../page";
+import type { SectionId } from "../../page";
 
-type Props = { onNav: (id: PanelId) => void };
+type Props = { onNav: (id: SectionId) => void };
 
 function toRoman(n: number) {
   const v = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
@@ -27,7 +27,7 @@ export default function TravauxPanel({ onNav }: Props) {
 
   const open = (p: Projet) => {
     if (p.youtubeId) playFilm(p);
-    else onNav("note");
+    else onNav("approche");
   };
 
   return (
@@ -52,8 +52,7 @@ export default function TravauxPanel({ onNav }: Props) {
         }}
       >
         <span style={{ fontFamily: "var(--serif)", fontSize: 11, letterSpacing: "0.22em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase" }}>
-          Travaux
-        </span>
+          Archive        </span>
         <div style={{ display: "flex", gap: 18 }}>
           {(["cascade", "cercle"] as Mode[]).map((m) => (
             <button

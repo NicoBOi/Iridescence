@@ -1,29 +1,29 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { PanelId } from "../page";
+import type { SectionId } from "../page";
 
-const links: { label: string; id: PanelId }[] = [
-  { label: "Travaux",   id: "travaux"   },
-  { label: "Note",      id: "note"      },
-  { label: "Générique", id: "generique" },
-  { label: "Contact",   id: "contact"   },
+const links: { label: string; id: SectionId }[] = [
+  { label: "Archive",  id: "archive"  },
+  { label: "Talent",   id: "talent"   },
+  { label: "Approche", id: "approche" },
+  { label: "Contact",  id: "contact"  },
 ];
 
 export default function Nav() {
-  const [active, setActive] = useState<PanelId>("hero");
-  // Panneaux sur fond blanc → UI sombre.
-  const light = active === "generique" || active === "contact";
-  const ink = light ? "13, 11, 9" : "255, 255, 255";
+  const [active, setActive] = useState<SectionId>("featured");
+  // Sections à fond blanc → encre sombre
+  const isLight = active === "talent" || active === "contact";
+  const ink = isLight ? "13, 11, 9" : "255, 255, 255";
 
   useEffect(() => {
-    const handler = (e: Event) => setActive((e as CustomEvent<PanelId>).detail);
-    window.addEventListener("irid:active", handler);
-    return () => window.removeEventListener("irid:active", handler);
+    const handler = (e: Event) => setActive((e as CustomEvent<SectionId>).detail);
+    window.addEventListener("iridescence:nav", handler);
+    return () => window.removeEventListener("iridescence:nav", handler);
   }, []);
 
-  const go = (id: PanelId) =>
-    window.dispatchEvent(new CustomEvent("irid:goto", { detail: id }));
+  const go = (id: SectionId) =>
+    window.dispatchEvent(new CustomEvent("iridescence:nav", { detail: id }));
 
   return (
     <nav
@@ -34,27 +34,30 @@ export default function Nav() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        paddingTop: 28,
+        paddingTop: 24,
+        transition: "color 0.5s ease",
         pointerEvents: "none",
       }}
     >
+      {/* Wordmark → retour à Featured */}
       <button
-        onClick={() => go("hero")}
+        onClick={() => go("featured")}
         style={{
           fontFamily: "var(--serif)",
           fontStyle: "italic",
+          fontWeight: 400,
           fontSize: 15,
           letterSpacing: "0.06em",
-          color: `rgba(${ink}, ${active === "hero" ? 0.92 : 0.82})`,
-          transition: "color 0.6s ease",
+          color: `rgba(${ink}, 0.95)`,
+          transition: "color 0.5s ease",
           pointerEvents: "auto",
-          minHeight: 44,
+          minHeight: 40,
         }}
       >
         Iridescence
       </button>
 
-      <ul style={{ display: "flex", gap: 28, listStyle: "none", padding: 0, margin: "4px 0 0", pointerEvents: "auto" }}>
+      <ul style={{ display: "flex", gap: 26, marginTop: 6, listStyle: "none", padding: 0, margin: "6px 0 0", pointerEvents: "auto" }}>
         {links.map(({ label, id }) => (
           <li key={id}>
             <button
@@ -64,9 +67,9 @@ export default function Nav() {
                 fontFamily: "var(--serif)",
                 fontSize: 13,
                 letterSpacing: "0.04em",
-                color: `rgba(${ink}, ${active === id ? 0.95 : 0.45})`,
-                transition: "color 0.6s ease",
-                minHeight: 44,
+                color: `rgba(${ink}, ${active === id ? 0.95 : 0.5})`,
+                transition: "color 0.5s ease",
+                minHeight: 40,
               }}
             >
               {label}
