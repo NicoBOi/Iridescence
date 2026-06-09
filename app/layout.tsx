@@ -4,6 +4,7 @@ import MotionProvider from "./components/MotionProvider";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import ScrollProgress from "./components/ScrollProgress";
+import MagneticCursor from "./components/MagneticCursor";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://iridescence-ten.vercel.app"),
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className="h-full">
       <body className="min-h-full">
+        <MagneticCursor />
         <ScrollProgress />
         <Nav />
         <MotionProvider>{children}</MotionProvider>

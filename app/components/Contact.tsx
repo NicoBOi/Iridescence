@@ -53,7 +53,7 @@ export default function Contact() {
 
       <div style={{ borderTop: "1px solid var(--border)" }}>
         {/* Email : clic pour copier (justif : contact sans friction, retour tactile) */}
-        <button onClick={copy} className={`${rowClass} w-full text-left`} style={rowStyle}>
+        <button data-magnetic onClick={copy} className={`${rowClass} w-full text-left`} style={rowStyle}>
           <span className="uppercase" style={{ fontSize: "11px", letterSpacing: "0.14em" }}>
             Email
           </span>
@@ -69,6 +69,7 @@ export default function Contact() {
 
         {links.map(({ label, value, href }) => (
           <a
+            data-magnetic
             key={label}
             href={href}
             target="_blank"

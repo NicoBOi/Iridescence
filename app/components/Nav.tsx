@@ -50,6 +50,7 @@ export default function Nav() {
         {links.map(({ href, label }) => (
           <li key={href}>
             <Link
+              data-magnetic
               href={href}
               className="group inline-flex items-center min-h-[44px]"
               style={{

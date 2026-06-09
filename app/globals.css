@@ -101,6 +101,35 @@ button:focus-visible {
   100% { transform: translate(6%, 5%); }
 }
 
+/* Cadre pellicule de la traînée curseur (FilmTrail). Apparaît, puis s'efface. */
+.film-frame {
+  position: absolute;
+  width: 168px;
+  aspect-ratio: 2.39 / 1;
+  transform: translate(-50%, -50%);
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset 0 0 0 1px rgba(246, 244, 239, 0.35), 0 16px 40px rgba(12, 10, 8, 0.4);
+  animation: film-pop 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  filter: grayscale(1) contrast(1.05);
+}
+/* Repères de cadrage aux coins (clap / viseur). */
+.film-frame::before,
+.film-frame::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 1px solid rgba(246, 244, 239, 0.6);
+}
+.film-frame::before { top: 6px; left: 6px; border-right: 0; border-bottom: 0; }
+.film-frame::after { bottom: 6px; right: 6px; border-left: 0; border-top: 0; }
+@keyframes film-pop {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.82); }
+  18% { opacity: 0.92; }
+  100% { opacity: 0; transform: translate(-50%, -52%) scale(1.06); }
+}
+
 ::-webkit-scrollbar {
   width: 1px;
 }

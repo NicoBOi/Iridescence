@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { projets, Projet, ProjetType } from "@/data/projets";
 import ScrambleText from "./ScrambleText";
+import FilmTrail from "./FilmTrail";
 
 const filters: { label: string; match: (t: ProjetType) => boolean }[] = [
   { label: "Tous", match: () => true },
@@ -25,6 +26,7 @@ function Row({ projet, index }: { projet: Projet; index: number }) {
       transition={{ duration: 0.5, delay: Math.min(index * 0.04, 0.3) }}
     >
       <Link
+        data-magnetic
         href={`/projets/${projet.id}`}
         className={`group relative grid ${COLS} gap-x-4 gap-y-1 items-baseline py-5 transition-colors duration-300 hover:bg-[var(--ink)] hover:text-[var(--bg)]`}
         style={{ paddingLeft: "8px", paddingRight: "8px", marginLeft: "-8px", marginRight: "-8px" }}
@@ -50,7 +52,6 @@ function Row({ projet, index }: { projet: Projet; index: number }) {
         <span className="hidden md:block uppercase" style={{ fontSize: "11px", letterSpacing: "0.1em" }}>
           {projet.role}
         </span>
-        {/* Flèche qui glisse à l'entrée (justif : signale l'entrée cliquable) */}
         <span
           aria-hidden
           className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
@@ -92,7 +93,6 @@ export default function IndexList() {
 
   return (
     <section id="travaux" className="px-6 md:px-8 pt-16 pb-24 scroll-mt-20">
-      {/* En-tête de section + filtres */}
       <div className="flex flex-wrap items-baseline justify-between gap-4 mb-8">
         <h2 style={{ fontSize: "11px", letterSpacing: "0.2em", color: "var(--text-muted)" }}>
           <ScrambleText text="TRAVAUX" trigger="view" />
@@ -104,6 +104,7 @@ export default function IndexList() {
             return (
               <button
                 key={f.label}
+                data-magnetic
                 onClick={() => setActive(i)}
                 onMouseEnter={() => setHover(i)}
                 onMouseLeave={() => setHover(null)}
@@ -124,7 +125,6 @@ export default function IndexList() {
         </div>
       </div>
 
-      {/* Bandeau de colonnes */}
       <div
         className={`hidden md:grid ${COLS} gap-x-4 uppercase pb-3`}
         style={{ fontSize: "10px", letterSpacing: "0.18em", color: "var(--text-faint)", borderBottom: "1px solid var(--ink)" }}
@@ -137,20 +137,22 @@ export default function IndexList() {
       </div>
       <div className="md:hidden" style={{ borderTop: "1px solid var(--ink)" }} />
 
-      {/* Lignes */}
-      <div>
-        {hasProjects
-          ? filtered.map((p, i) => (
-              <div key={p.id} style={{ borderBottom: "1px solid var(--border)" }}>
-                <Row projet={p} index={i} />
-              </div>
-            ))
-          : [0, 1, 2, 3, 4, 5].map((i) => (
-              <div key={i} style={{ borderBottom: "1px solid var(--border)" }}>
-                <PlaceholderRow index={i} />
-              </div>
-            ))}
-      </div>
+      {/* FilmTrail : cadres pellicule qui surgissent derrière le curseur sur l'index. */}
+      <FilmTrail>
+        <div>
+          {hasProjects
+            ? filtered.map((p, i) => (
+                <div key={p.id} style={{ borderBottom: "1px solid var(--border)" }}>
+                  <Row projet={p} index={i} />
+                </div>
+              ))
+            : [0, 1, 2, 3, 4, 5].map((i) => (
+                <div key={i} style={{ borderBottom: "1px solid var(--border)" }}>
+                  <PlaceholderRow index={i} />
+                </div>
+              ))}
+        </div>
+      </FilmTrail>
     </section>
   );
 }
