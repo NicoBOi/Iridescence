@@ -24,7 +24,7 @@ export default function Generique() {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-8%" }}
-            transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="group grid grid-cols-[40px_1fr] md:grid-cols-[44px_minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,120px)] gap-x-4 gap-y-1 items-baseline py-6"
             style={{ borderBottom: "1px solid var(--border)" }}
           >

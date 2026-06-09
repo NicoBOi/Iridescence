@@ -1,158 +1,162 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { projets, Projet, ProjetType } from "@/data/projets";
-import ScrambleText from "./ScrambleText";
-import FilmTrail from "./FilmTrail";
+import { projets } from "@/data/projets";
+import Grain from "./Grain";
 
-const filters: { label: string; match: (t: ProjetType) => boolean }[] = [
-  { label: "Tous", match: () => true },
-  { label: "Films", match: (t) => t === "film" },
-  { label: "Documentaires", match: (t) => t === "documentaire" },
-  { label: "Clips", match: (t) => t === "clip" },
-];
-
-const COLS =
-  "grid-cols-[40px_1fr] md:grid-cols-[44px_minmax(0,2.2fr)_minmax(0,1fr)_72px_minmax(0,1.3fr)]";
-
-function Row({ projet, index }: { projet: Projet; index: number }) {
+function ProjectFrame({ projet, index }: { projet: (typeof projets)[0]; index: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-8%" }}
-      transition={{ duration: 0.5, delay: Math.min(index * 0.04, 0.3) }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-6%" }}
+      transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
     >
       <Link
-        data-magnetic
         href={`/projets/${projet.id}`}
-        className={`group relative grid ${COLS} gap-x-4 gap-y-1 items-baseline py-5 transition-colors duration-300 hover:bg-[var(--ink)] hover:text-[var(--bg)]`}
-        style={{ paddingLeft: "8px", paddingRight: "8px", marginLeft: "-8px", marginRight: "-8px" }}
+        className="group block relative overflow-hidden"
+        style={{ backgroundColor: "#0c0a08", height: "70vh", minHeight: "400px" }}
       >
-        <span style={{ fontSize: "12px", color: "inherit" }}>{String(index + 1).padStart(2, "0")}</span>
-        <span>
-          <span
-            className="font-display uppercase block transition-transform duration-300 group-hover:translate-x-2"
-            style={{ fontWeight: 600, fontSize: "clamp(22px, 3vw, 38px)", lineHeight: 1, letterSpacing: "0.01em" }}
-          >
-            {projet.titre}
-          </span>
-          <span className="md:hidden block uppercase mt-1" style={{ fontSize: "11px", letterSpacing: "0.1em", opacity: 0.7 }}>
-            {projet.type} · {projet.annee} · {projet.role}
-          </span>
-        </span>
-        <span className="hidden md:block uppercase" style={{ fontSize: "11px", letterSpacing: "0.1em" }}>
-          {projet.type}
-        </span>
-        <span className="hidden md:block" style={{ fontSize: "12px" }}>
-          {projet.annee}
-        </span>
-        <span className="hidden md:block uppercase" style={{ fontSize: "11px", letterSpacing: "0.1em" }}>
-          {projet.role}
-        </span>
-        <span
+        <Grain opacity={0.12} />
+        {/* Vignette basse pour lisibilité du titre */}
+        <div
           aria-hidden
-          className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
-          style={{ fontSize: "16px" }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to top, rgba(12,10,8,0.9) 0%, transparent 55%)",
+            zIndex: 1,
+          }}
+        />
+        {/* Numéro */}
+        <span
+          style={{
+            position: "absolute",
+            top: "28px",
+            right: "28px",
+            fontSize: "11px",
+            letterSpacing: "0.18em",
+            color: "rgba(246,244,239,0.4)",
+            zIndex: 2,
+          }}
         >
-          &rarr;
+          {String(index + 1).padStart(2, "0")}
         </span>
+        {/* Métadonnée type + année */}
+        <span
+          style={{
+            position: "absolute",
+            bottom: "32px",
+            right: "28px",
+            fontSize: "11px",
+            letterSpacing: "0.16em",
+            color: "rgba(246,244,239,0.5)",
+            textTransform: "uppercase",
+            zIndex: 2,
+          }}
+        >
+          {projet.type} · {projet.annee}
+        </span>
+        {/* Titre */}
+        <span
+          className="font-display uppercase block transition-transform duration-700 ease-out group-hover:translate-x-1"
+          style={{
+            position: "absolute",
+            bottom: "24px",
+            left: "28px",
+            fontWeight: 700,
+            fontSize: "clamp(32px, 6vw, 96px)",
+            lineHeight: 0.9,
+            letterSpacing: "0.01em",
+            color: "var(--bg)",
+            zIndex: 2,
+          }}
+        >
+          {projet.titre}
+        </span>
+        {/* Lift au hover */}
+        <div
+          aria-hidden
+          className="transition-opacity duration-700 opacity-0 group-hover:opacity-100"
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "rgba(246,244,239,0.03)",
+            zIndex: 1,
+          }}
+        />
       </Link>
     </motion.div>
   );
 }
 
-function PlaceholderRow({ index }: { index: number }) {
+function PlaceholderFrame({ index }: { index: number }) {
   return (
     <div
-      className={`group grid ${COLS} gap-x-4 items-baseline py-5 transition-colors duration-300 hover:bg-[rgba(26,23,20,0.03)]`}
-      style={{ color: "var(--text-faint)", paddingLeft: "8px", paddingRight: "8px", marginLeft: "-8px", marginRight: "-8px" }}
+      className="relative overflow-hidden"
+      style={{ backgroundColor: "#080706", height: "28vh", minHeight: "160px" }}
     >
-      <span style={{ fontSize: "12px" }}>{String(index + 1).padStart(2, "0")}</span>
-      <span className="flex items-baseline gap-3">
-        <span className="font-display uppercase" style={{ fontWeight: 600, fontSize: "clamp(22px, 3vw, 38px)", lineHeight: 1 }}>
-          À venir
-        </span>
-        <span className="leader hidden md:block" />
+      <Grain opacity={0.07} />
+      <span
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "24px",
+          fontSize: "11px",
+          letterSpacing: "0.18em",
+          color: "rgba(246,244,239,0.18)",
+        }}
+      >
+        {String(index + 1).padStart(2, "0")}
       </span>
-      <span className="hidden md:block" />
-      <span className="hidden md:block" />
-      <span className="hidden md:block" />
+      <span
+        className="font-display uppercase"
+        style={{
+          position: "absolute",
+          bottom: "20px",
+          left: "24px",
+          fontWeight: 700,
+          fontSize: "clamp(20px, 3vw, 48px)",
+          lineHeight: 0.9,
+          letterSpacing: "0.01em",
+          color: "rgba(246,244,239,0.12)",
+        }}
+      >
+        À venir
+      </span>
     </div>
   );
 }
 
 export default function IndexList() {
-  const [active, setActive] = useState(0);
-  const [hover, setHover] = useState<number | null>(null);
-  const filtered = projets.filter((p) => filters[active].match(p.type));
   const hasProjects = projets.length > 0;
-  const count = (i: number) => projets.filter((p) => filters[i].match(p.type)).length;
+  const placeholders = Math.max(0, 5 - projets.length);
 
   return (
-    <section id="travaux" className="px-6 md:px-8 pt-16 pb-24 scroll-mt-20">
-      <div className="flex flex-wrap items-baseline justify-between gap-4 mb-8">
-        <h2 style={{ fontSize: "11px", letterSpacing: "0.2em", color: "var(--text-muted)" }}>
-          <ScrambleText text="TRAVAUX" trigger="view" />
-        </h2>
-        <div className="flex flex-wrap items-center gap-2">
-          {filters.map((f, i) => {
-            const isActive = active === i;
-            const isHover = hover === i;
-            return (
-              <button
-                key={f.label}
-                data-magnetic
-                onClick={() => setActive(i)}
-                onMouseEnter={() => setHover(i)}
-                onMouseLeave={() => setHover(null)}
-                className="uppercase inline-flex items-center min-h-[44px] px-3 transition-colors duration-300"
-                style={{
-                  fontSize: "11px",
-                  letterSpacing: "0.12em",
-                  border: "1px solid var(--border)",
-                  backgroundColor: isActive ? "var(--ink)" : isHover ? "rgba(26,23,20,0.06)" : "transparent",
-                  color: isActive ? "var(--bg)" : isHover ? "var(--ink)" : "var(--text-secondary)",
-                }}
-              >
-                {f.label}
-                <span style={{ opacity: 0.6, marginLeft: "6px" }}>{String(count(i)).padStart(2, "0")}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
+    <section id="travaux" className="scroll-mt-20">
       <div
-        className={`hidden md:grid ${COLS} gap-x-4 uppercase pb-3`}
-        style={{ fontSize: "10px", letterSpacing: "0.18em", color: "var(--text-faint)", borderBottom: "1px solid var(--ink)" }}
+        className="px-6 md:px-8 py-5"
+        style={{ borderBottom: "1px solid var(--border)" }}
       >
-        <span>Nº</span>
-        <span>Titre</span>
-        <span>Type</span>
-        <span>Année</span>
-        <span>Rôle</span>
+        <h2 style={{ fontSize: "11px", letterSpacing: "0.2em", color: "var(--text-muted)", textTransform: "uppercase" }}>
+          Travaux
+        </h2>
       </div>
-      <div className="md:hidden" style={{ borderTop: "1px solid var(--ink)" }} />
 
-      {/* FilmTrail : cadres pellicule qui surgissent derrière le curseur sur l'index. */}
-      <FilmTrail>
-        <div>
-          {hasProjects
-            ? filtered.map((p, i) => (
-                <div key={p.id} style={{ borderBottom: "1px solid var(--border)" }}>
-                  <Row projet={p} index={i} />
-                </div>
-              ))
-            : [0, 1, 2, 3, 4, 5].map((i) => (
-                <div key={i} style={{ borderBottom: "1px solid var(--border)" }}>
-                  <PlaceholderRow index={i} />
-                </div>
-              ))}
-        </div>
-      </FilmTrail>
+      <div style={{ borderBottom: "1px solid var(--ink)" }}>
+        {hasProjects &&
+          projets.map((p, i) => (
+            <div key={p.id} style={{ borderBottom: "1px solid rgba(246,244,239,0.06)" }}>
+              <ProjectFrame projet={p} index={i} />
+            </div>
+          ))}
+        {Array.from({ length: placeholders }).map((_, i) => (
+          <div key={i} style={{ borderBottom: "1px solid rgba(246,244,239,0.04)" }}>
+            <PlaceholderFrame index={projets.length + i} />
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
