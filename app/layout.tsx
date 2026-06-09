@@ -5,6 +5,9 @@ import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import PanelRail from "./components/PanelRail";
 import YoutubeBackdrop from "./components/YoutubeBackdrop";
+import Preloader from "./components/Preloader";
+import EdgeMarkers from "./components/EdgeMarkers";
+import FilmPlayer from "./components/FilmPlayer";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://iridescence-ten.vercel.app"),
@@ -29,9 +32,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div style={{ position: "relative", zIndex: 1 }}>
           <Nav />
           <PanelRail />
+          <EdgeMarkers />
           <MotionProvider>{children}</MotionProvider>
           <Footer />
         </div>
+        <FilmPlayer />
+        <Preloader />
       </body>
     </html>
   );

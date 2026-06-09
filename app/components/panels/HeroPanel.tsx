@@ -15,23 +15,6 @@ export default function HeroPanel({ onNav }: Props) {
         position: "relative",
       }}
     >
-      {/* Repère gauche */}
-      <span
-        aria-hidden
-        style={{
-          position: "absolute",
-          left: 28,
-          top: "50%",
-          transform: "translateY(-50%)",
-          fontFamily: "var(--serif)",
-          fontSize: 11,
-          letterSpacing: "0.22em",
-          color: "rgba(255,255,255,0.3)",
-        }}
-      >
-        I
-      </span>
-
       {/* Wordmark */}
       <motion.h1
         initial={{ opacity: 0, y: 10 }}
