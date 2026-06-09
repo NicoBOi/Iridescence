@@ -36,19 +36,6 @@ export default function EdgeMarkers() {
     whiteSpace: "nowrap",
   };
 
-  return (
-    <>
-      <span style={{ ...base, left: 28, transform: "translateY(-50%)" }}>{META[active].num}</span>
-      <span
-        style={{
-          ...base,
-          right: 28,
-          transform: "translateY(-50%) rotate(180deg)",
-          writingMode: "vertical-rl",
-        }}
-      >
-        {META[active].right}
-      </span>
-    </>
-  );
+  // Le bord droit est occupé par PanelRail ; on garde le chiffre romain à gauche.
+  return <span style={{ ...base, left: 28, transform: "translateY(-50%)" }}>{META[active].num}</span>;
 }

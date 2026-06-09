@@ -18,8 +18,8 @@ export default function PanelRail() {
 
   useEffect(() => {
     const handler = (e: Event) => setActive((e as CustomEvent<PanelId>).detail);
-    window.addEventListener("irid:active", handler);
-    return () => window.removeEventListener("irid:active", handler);
+    window.addEventListener("iridescence:nav", handler);
+    return () => window.removeEventListener("iridescence:nav", handler);
   }, []);
 
   return (
@@ -42,7 +42,7 @@ export default function PanelRail() {
           <button
             key={id}
             aria-label={`Aller au panneau ${roman}`}
-            onClick={() => window.dispatchEvent(new CustomEvent("irid:goto", { detail: id }))}
+            onClick={() => window.dispatchEvent(new CustomEvent("iridescence:nav", { detail: id }))}
             style={{
               display: "flex",
               alignItems: "center",
